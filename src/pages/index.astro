@@ -21,11 +21,17 @@ const base = import.meta.env.BASE_URL;
 
   <body
     class="px-4 sm:px-6 xl:px-8 py-5 xl:py-[70px]"
-    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;`}
+    style="background: #0b0a12; min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;"
   >
+    <!-- Animated wave background -->
+    <canvas
+      id="bg-canvas"
+      style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"
+    ></canvas>
+
     <!-- Dark card -->
     <div
-      class="relative overflow-hidden mx-auto rounded-[20px] sm:rounded-[40px] xl:rounded-[70px] xl:min-h-[883px]"
+      class="relative z-[1] overflow-hidden mx-auto rounded-[20px] sm:rounded-[40px] xl:rounded-[70px] xl:min-h-[883px]"
       style="width: 100%; max-width: 1294px;"
     >
       <!-- Background gradient fill -->
@@ -699,6 +705,102 @@ const base = import.meta.env.BASE_URL;
           overlay.style.opacity = '0';
         });
       });
+    </script>
+
+    <script>
+      import { createNoise3D } from 'simplex-noise';
+
+      const canvas = document.getElementById('bg-canvas') as HTMLCanvasElement;
+      const ctx    = canvas.getContext('2d')!;
+      const noise3D = createNoise3D();
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Matches the Three.js palette and lava blobs
+      const PALETTE: [number, number, number][] = [
+        [124,  58, 237],  // purple
+        [  8, 145, 178],  // cyan
+        [219,  49,  91],  // pink
+        [  5, 150, 105],  // green
+        [234,  88,  12],  // orange
+      ];
+
+      const waves = [
+        { ci: 0, yB: 0.18, amp: 0.09, fq: 0.55, sp: 0.028, ph: 0.0, bw: 0.24, op: 0.40 },
+        { ci: 1, yB: 0.44, amp: 0.11, fq: 0.36, sp: 0.020, ph: 2.3, bw: 0.28, op: 0.34 },
+        { ci: 2, yB: 0.68, amp: 0.08, fq: 0.70, sp: 0.038, ph: 4.7, bw: 0.20, op: 0.32 },
+        { ci: 3, yB: 0.31, amp: 0.13, fq: 0.27, sp: 0.016, ph: 1.5, bw: 0.32, op: 0.28 },
+        { ci: 4, yB: 0.56, amp: 0.10, fq: 0.44, sp: 0.030, ph: 3.1, bw: 0.22, op: 0.30 },
+      ];
+
+      const STEPS = 90;
+      const t0    = performance.now();
+
+      (function tick() {
+        requestAnimationFrame(tick);
+
+        const t = (performance.now() - t0) / 1000;
+        const W = canvas.width;
+        const H = canvas.height;
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#0b0a12';
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.save();
+        ctx.filter = 'blur(30px)';
+
+        for (const w of waves) {
+          const [r, g, b] = PALETTE[w.ci];
+          const bandH     = H * w.bw;
+
+          // Sample the wave's top edge
+          const top = new Float32Array((STEPS + 1) * 2);
+          for (let i = 0; i <= STEPS; i++) {
+            const xn = (i / STEPS) * w.fq;
+            // Two noise octaves for organic shape
+            const n  = noise3D(xn + t * w.sp,         w.ph,       0);
+            const n2 = noise3D(xn * 2.1 - t * w.sp * 0.5, w.ph + 8, 0);
+            top[i * 2]     = (i / STEPS) * W;
+            top[i * 2 + 1] = H * w.yB + (n * 0.65 + n2 * 0.35) * H * w.amp;
+          }
+
+          // Ribbon: top edge → bottom edge (offset by bandH)
+          ctx.beginPath();
+          ctx.moveTo(top[0], top[1]);
+          for (let i = 1; i <= STEPS; i++) ctx.lineTo(top[i * 2], top[i * 2 + 1]);
+          for (let i = STEPS; i >= 0; i--) ctx.lineTo(top[i * 2], top[i * 2 + 1] + bandH);
+          ctx.closePath();
+
+          // Gradient fades in/out vertically — gives the glassy translucency
+          const yApex = H * w.yB - H * w.amp;
+          const grad  = ctx.createLinearGradient(0, yApex, 0, yApex + bandH * 1.4);
+          grad.addColorStop(0,    `rgba(${r},${g},${b},0)`);
+          grad.addColorStop(0.20, `rgba(${r},${g},${b},${w.op})`);
+          grad.addColorStop(0.55, `rgba(${r},${g},${b},${w.op * 0.85})`);
+          grad.addColorStop(1,    `rgba(${r},${g},${b},0)`);
+          ctx.fillStyle = grad;
+          ctx.fill();
+
+          // Thin bright leading edge — simulates glass highlight
+          ctx.save();
+          ctx.filter = 'blur(4px)';
+          ctx.beginPath();
+          ctx.moveTo(top[0], top[1]);
+          for (let i = 1; i <= STEPS; i++) ctx.lineTo(top[i * 2], top[i * 2 + 1]);
+          ctx.strokeStyle = `rgba(${r},${g},${b},${w.op * 0.6})`;
+          ctx.lineWidth   = 2;
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        ctx.restore();
+      }());
     </script>
   </body>
 </html>
