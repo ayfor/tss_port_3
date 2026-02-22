@@ -21,7 +21,7 @@ const base = import.meta.env.BASE_URL;
 
   <body
     class="px-4 sm:px-6 xl:px-8 py-5 xl:py-[70px]"
-    style="background: #0b0a12; min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;"
+    style="background: #1c1a2e; min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;"
   >
     <!-- Animated wave background -->
     <canvas
@@ -430,25 +430,26 @@ const base = import.meta.env.BASE_URL;
 
       // ── Morph timing ──────────────────────────────────────────────────────
       // Cycle (25s):  blob(0-5) → main-in(5-8) → main-alone(8-9)
-      //               → mirror-in(9-12) → both-hold(12-20) → both-out(20-23) → blob(23-25)
-      const T_CYCLE = 25;
+      // Cycle (50s): blob(0-14) → main-in(14-17) → main-alone(17-20)
+      //              → mirror-in(20-23) → both-hold(23-33) → both-out(33-36) → blob(36-50)
+      const T_CYCLE = 50;
       function smoothstep(x) { return x * x * (3 - 2 * x); }
 
       function getMorphT(t) {
         const p = t % T_CYCLE;
-        if (p < 5)  return 0;
-        if (p < 8)  return smoothstep((p - 5) / 3);
-        if (p < 20) return 1;
-        if (p < 23) return 1 - smoothstep((p - 20) / 3);
+        if (p < 14) return 0;
+        if (p < 17) return smoothstep((p - 14) / 3);
+        if (p < 33) return 1;
+        if (p < 36) return 1 - smoothstep((p - 33) / 3);
         return 0;
       }
 
       function getMirrorMorphT(t) {
         const p = t % T_CYCLE;
-        if (p < 9)  return 0;
-        if (p < 12) return smoothstep((p - 9) / 3);
-        if (p < 20) return 1;
-        if (p < 23) return 1 - smoothstep((p - 20) / 3);
+        if (p < 20) return 0;
+        if (p < 23) return smoothstep((p - 20) / 3);
+        if (p < 33) return 1;
+        if (p < 36) return 1 - smoothstep((p - 33) / 3);
         return 0;
       }
 
@@ -666,9 +667,9 @@ const base = import.meta.env.BASE_URL;
           );
         });
 
-        // Auto-rotation — pauses while user drags, x springs back to level
+        // Auto-rotation — constant slow horizontal spin, x springs back to level
         if (autoRotate) {
-          group.rotation.y += 0.0006 * (1 - morphT * 0.85);
+          group.rotation.y += 0.004;
           group.rotation.x += (0 - group.rotation.x) * 0.02;
         }
 
@@ -710,8 +711,8 @@ const base = import.meta.env.BASE_URL;
     <script>
       import { createNoise3D } from 'simplex-noise';
 
-      const canvas = document.getElementById('bg-canvas') as HTMLCanvasElement;
-      const ctx    = canvas.getContext('2d')!;
+      const canvas  = document.getElementById('bg-canvas') as HTMLCanvasElement;
+      const ctx     = canvas.getContext('2d')!;
       const noise3D = createNoise3D();
 
       function resize() {
@@ -721,7 +722,6 @@ const base = import.meta.env.BASE_URL;
       resize();
       window.addEventListener('resize', resize);
 
-      // Matches the Three.js palette and lava blobs
       const PALETTE: [number, number, number][] = [
         [124,  58, 237],  // purple
         [  8, 145, 178],  // cyan
@@ -730,73 +730,79 @@ const base = import.meta.env.BASE_URL;
         [234,  88,  12],  // orange
       ];
 
-      const waves = [
-        { ci: 0, yB: 0.18, amp: 0.09, fq: 0.55, sp: 0.028, ph: 0.0, bw: 0.24, op: 0.40 },
-        { ci: 1, yB: 0.44, amp: 0.11, fq: 0.36, sp: 0.020, ph: 2.3, bw: 0.28, op: 0.34 },
-        { ci: 2, yB: 0.68, amp: 0.08, fq: 0.70, sp: 0.038, ph: 4.7, bw: 0.20, op: 0.32 },
-        { ci: 3, yB: 0.31, amp: 0.13, fq: 0.27, sp: 0.016, ph: 1.5, bw: 0.32, op: 0.28 },
-        { ci: 4, yB: 0.56, amp: 0.10, fq: 0.44, sp: 0.030, ph: 3.1, bw: 0.22, op: 0.30 },
+      // 6 vortex attractors spread across the canvas, including near the corners
+      const VORTEX = [
+        { nzx:  0.0, nzy: 20.0, sp: 0.010 },
+        { nzx:  7.3, nzy: 27.3, sp: 0.008 },
+        { nzx: 14.6, nzy: 34.6, sp: 0.012 },
+        { nzx: 21.9, nzy: 41.9, sp: 0.007 },
+        { nzx: 29.2, nzy: 49.2, sp: 0.011 },
+        { nzx: 36.5, nzy: 56.5, sp: 0.009 },
       ];
 
-      const STEPS = 90;
-      const t0    = performance.now();
+      // 55 blobs — more count, larger radii, wider orbits for full coverage
+      const blobs = Array.from({ length: 55 }, (_, i) => {
+        const s = (seed: number) => (Math.sin(seed) * 0.5 + 0.5);
+        return {
+          ci:       i % 5,
+          vi:       i % VORTEX.length,
+          orbitR:   0.10 + s(i * 127.1) * 0.45,           // wider orbits
+          orbitSpd: (0.04 + s(i * 311.7) * 0.10) * (i % 2 ? 1 : -1),
+          phase:    s(i * 74.3) * Math.PI * 2,
+          blobR:    180 + s(i * 198.5) * 260,              // larger blobs
+          op:       0.55 + s(i * 453.9) * 0.30,
+          driftSpd: 0.005 + s(i * 89.2) * 0.008,
+          driftNzx: i * 3.7,
+          driftNzy: i * 3.7 + 100,
+        };
+      });
+
+      const t0 = performance.now();
 
       (function tick() {
         requestAnimationFrame(tick);
 
-        const t = (performance.now() - t0) / 1000;
-        const W = canvas.width;
-        const H = canvas.height;
+        const t  = (performance.now() - t0) / 1000;
+        const W  = canvas.width;
+        const H  = canvas.height;
+        const md = Math.min(W, H);
 
         ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = '#0b0a12';
+        ctx.fillStyle = '#1c1a2e';
         ctx.fillRect(0, 0, W, H);
 
+        // Vortex centres — each wanders in a slow noise-driven figure
+        const vc = VORTEX.map(v => ({
+          x: W * (0.5 + noise3D(t * v.sp, v.nzx, 0) * 0.48),
+          y: H * (0.5 + noise3D(t * v.sp, v.nzy, 0) * 0.48),
+        }));
+
         ctx.save();
-        ctx.filter = 'blur(30px)';
+        ctx.filter = 'blur(72px)';
 
-        for (const w of waves) {
-          const [r, g, b] = PALETTE[w.ci];
-          const bandH     = H * w.bw;
+        for (const b of blobs) {
+          const [r, g, bl] = PALETTE[b.ci];
+          const { x: vx, y: vy } = vc[b.vi];
 
-          // Sample the wave's top edge
-          const top = new Float32Array((STEPS + 1) * 2);
-          for (let i = 0; i <= STEPS; i++) {
-            const xn = (i / STEPS) * w.fq;
-            // Two noise octaves for organic shape
-            const n  = noise3D(xn + t * w.sp,         w.ph,       0);
-            const n2 = noise3D(xn * 2.1 - t * w.sp * 0.5, w.ph + 8, 0);
-            top[i * 2]     = (i / STEPS) * W;
-            top[i * 2 + 1] = H * w.yB + (n * 0.65 + n2 * 0.35) * H * w.amp;
-          }
+          // Orbital position around vortex
+          const angle = t * b.orbitSpd + b.phase;
+          const rx    = b.orbitR * md;
+          const ry    = b.orbitR * md * 0.62; // slightly elliptical orbit
 
-          // Ribbon: top edge → bottom edge (offset by bandH)
+          // Secondary noise drift — makes orbits precess and wander
+          const dx = noise3D(t * b.driftSpd, b.driftNzx, 0) * md * 0.18;
+          const dy = noise3D(t * b.driftSpd, b.driftNzy, 0) * md * 0.18;
+
+          const x = vx + Math.cos(angle) * rx + dx;
+          const y = vy + Math.sin(angle) * ry + dy;
+
+          const grd = ctx.createRadialGradient(x, y, 0, x, y, b.blobR);
+          grd.addColorStop(0, `rgba(${r},${g},${bl},${b.op})`);
+          grd.addColorStop(1, `rgba(${r},${g},${bl},0)`);
+          ctx.fillStyle = grd;
           ctx.beginPath();
-          ctx.moveTo(top[0], top[1]);
-          for (let i = 1; i <= STEPS; i++) ctx.lineTo(top[i * 2], top[i * 2 + 1]);
-          for (let i = STEPS; i >= 0; i--) ctx.lineTo(top[i * 2], top[i * 2 + 1] + bandH);
-          ctx.closePath();
-
-          // Gradient fades in/out vertically — gives the glassy translucency
-          const yApex = H * w.yB - H * w.amp;
-          const grad  = ctx.createLinearGradient(0, yApex, 0, yApex + bandH * 1.4);
-          grad.addColorStop(0,    `rgba(${r},${g},${b},0)`);
-          grad.addColorStop(0.20, `rgba(${r},${g},${b},${w.op})`);
-          grad.addColorStop(0.55, `rgba(${r},${g},${b},${w.op * 0.85})`);
-          grad.addColorStop(1,    `rgba(${r},${g},${b},0)`);
-          ctx.fillStyle = grad;
+          ctx.arc(x, y, b.blobR, 0, Math.PI * 2);
           ctx.fill();
-
-          // Thin bright leading edge — simulates glass highlight
-          ctx.save();
-          ctx.filter = 'blur(4px)';
-          ctx.beginPath();
-          ctx.moveTo(top[0], top[1]);
-          for (let i = 1; i <= STEPS; i++) ctx.lineTo(top[i * 2], top[i * 2 + 1]);
-          ctx.strokeStyle = `rgba(${r},${g},${b},${w.op * 0.6})`;
-          ctx.lineWidth   = 2;
-          ctx.stroke();
-          ctx.restore();
         }
 
         ctx.restore();
