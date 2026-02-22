@@ -1,34 +1,47 @@
 @import "tailwindcss";
 
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
 @theme {
   --font-rubik: 'Rubik', sans-serif;
-  --color-tss-white: #fffaff;
-  --color-tss-blue: #3e92cc;
-  --color-tss-pink: #d8315b;
-  --color-card: #1e1b18;
-  --color-card2: #1d2023;
-  --color-border-tile: #717c89;
-}
 
-@layer base {
-  body {
-    font-family: 'Rubik', sans-serif;
-    color: #fffaff;
+  --color-tss-white:       #fffaff;
+  --color-tss-blue:        #3e92cc;
+  --color-tss-pink:        #d8315b;
+  --color-card:            #1e1b18;
+  --color-card2:           #1d2023;
+  --color-border-tile:     rgba(113, 124, 137, 0.5);
+
+  --animate-blob: blob 11s ease-in-out infinite;
+
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%       { transform: translate(40px, -30px) scale(1.12); }
+    50%       { transform: translate(-25px, 20px) scale(0.94); }
+    75%       { transform: translate(25px, 35px) scale(1.06); }
   }
 }
 
-@keyframes blob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25%       { transform: translate(40px, -30px) scale(1.12); }
-  50%       { transform: translate(-25px, 20px) scale(0.94); }
-  75%       { transform: translate(25px, 35px) scale(1.06); }
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    font-family: var(--font-rubik);
+    color: var(--color-tss-white);
+  }
 }
 
-.tile {
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(#1e1b18, #1d2023) padding-box,
-    linear-gradient(to bottom, transparent, #717c89) border-box;
-  border: 1px solid transparent;
+/* ── Components ────────────────────────────────────────────────────────────── */
+@layer components {
+  .tile {
+    --tile-gradient-dir: to bottom;
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(var(--color-card), var(--color-card2)) padding-box,
+      linear-gradient(var(--tile-gradient-dir), rgba(113, 124, 137, 0.2), var(--color-border-tile)) border-box;
+    border: 2px solid transparent;
+  }
+
+  .view-more-btn:hover {
+    background: rgba(62, 146, 204, 0.28) !important;
+  }
 }
