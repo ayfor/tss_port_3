@@ -20,12 +20,12 @@ const base = import.meta.env.BASE_URL;
   </head>
 
   <body
-    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;`}
+    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0; padding: 70px 0; display: flex; flex-direction: column; align-items: center;`}
   >
     <!-- Dark card -->
     <div
       class="relative overflow-hidden mx-auto rounded-[70px]"
-      style="width: 100%; max-width: 1294px; min-height: 883px; margin-top: 70px; margin-bottom: 70px;"
+      style="width: 100%; max-width: 1294px; min-height: 883px;"
     >
       <!-- Background gradient fill -->
       <div
@@ -77,11 +77,11 @@ const base = import.meta.env.BASE_URL;
 
       <!-- Content (z=10) — three columns -->
       <div
-        class="relative flex"
-        style="z-index: 10; padding: 43px 42px 34px 34px; gap: 20px;"
+        class="relative grid z-10 gap-5"
+        style="padding: 43px 42px 34px 34px; grid-template-columns: 1fr 311px 215px;"
       >
         <!-- ─── LEFT COLUMN ─── -->
-        <div class="flex-1 flex flex-col" style="min-height: 806px;">
+        <div class="flex flex-col" style="min-height: 806px;">
           <!-- Three.js morphing geometry -->
           <div id="three-canvas" class="flex-1 w-full min-h-0 rounded-[20px] overflow-hidden mt-[95px]"></div>
           <!-- Profile card at bottom -->
@@ -97,14 +97,14 @@ const base = import.meta.env.BASE_URL;
                 JOSH STUBBINGTON
               </p>
               <p class="text-sm mt-1" style="color: rgba(255,250,255,0.6);">
-                Full Stack Developer &middot; Vancouver, BC
+                Full Stack Developer &middot; Ottawa, ON
               </p>
             </div>
           </div>
         </div>
 
         <!-- ─── MIDDLE COLUMN ─── -->
-        <div class="shrink-0 flex flex-col gap-4" style="width: 311px;">
+        <div class="flex flex-col gap-4">
           <!-- Welcome tile (h=179) -->
           <div class="tile rounded-[15px] p-5 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="height: 179px; --tile-gradient-dir: to top;">
             <p class="font-bold text-2xl mb-3" style="color: #fffaff;">Welcome!</p>
@@ -244,12 +244,12 @@ const base = import.meta.env.BASE_URL;
         </div>
 
         <!-- ─── RIGHT COLUMN ─── -->
-        <div class="shrink-0 flex flex-col" style="width: 215px;">
+        <div class="flex flex-col gap-3">
           <!-- ALL PROJECTS tile (h=215) -->
           <a
             href="#"
             class="tile rounded-[10px] flex flex-col items-center justify-center transition-transform duration-200 hover:scale-[1.02]"
-            style="height: 215px; text-decoration: none; --tile-gradient-dir: to top right;"
+            style="flex: 215 1 0%; text-decoration: none; --tile-gradient-dir: to top right;"
           >
             <span style="font-size: 80px; line-height: 1; color: #fffaff; font-weight: 300;">↗</span>
             <p
@@ -261,7 +261,7 @@ const base = import.meta.env.BASE_URL;
           </a>
 
           <!-- Recent Projects tile (h=258) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="height: 258px; margin-top: 13px; --tile-gradient-dir: to right;">
+          <div class="tile rounded-[15px] p-4 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="flex: 258 1 0%; --tile-gradient-dir: to right;">
             <p class="font-bold text-lg mb-3" style="color: #fffaff;">Recent Projects</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
@@ -286,7 +286,7 @@ const base = import.meta.env.BASE_URL;
           </div>
 
           <!-- Other Work tile (h=232) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="height: 232px; margin-top: 21px; --tile-gradient-dir: to bottom right;">
+          <div class="tile rounded-[15px] p-4 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="flex: 232 1 0%; --tile-gradient-dir: to bottom right;">
             <p class="font-bold text-lg mb-3" style="color: #fffaff;">Other Work</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
@@ -310,13 +310,10 @@ const base = import.meta.env.BASE_URL;
             </div>
           </div>
 
-          <!-- Spacer pushes Contact Me to bottom with guaranteed gap -->
-          <div class="flex-1 min-h-[20px]"></div>
-
-          <!-- Contact Me button (h=74) -->
+          <!-- Contact Me button -->
           <a
             href="mailto:hello@twinssprucestudio.com"
-            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 transition-transform duration-200 hover:scale-[1.03]"
+            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform duration-200 hover:scale-[1.03]"
             style="height: 74px; background: #d8315b; color: #fffaff; border-radius: 10px 10px 60px 10px; text-decoration: none;"
           >
             Contact Me
