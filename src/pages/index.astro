@@ -20,12 +20,13 @@ const base = import.meta.env.BASE_URL;
   </head>
 
   <body
-    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0; padding: 70px 0; display: flex; flex-direction: column; align-items: center;`}
+    class="px-4 sm:px-6 xl:px-8 py-5 xl:py-[70px]"
+    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;`}
   >
     <!-- Dark card -->
     <div
-      class="relative overflow-hidden mx-auto rounded-[70px]"
-      style="width: 100%; max-width: 1294px; min-height: 883px;"
+      class="relative overflow-hidden mx-auto rounded-[20px] sm:rounded-[40px] xl:rounded-[70px] xl:min-h-[883px]"
+      style="width: 100%; max-width: 1294px;"
     >
       <!-- Background gradient fill -->
       <div
@@ -63,29 +64,34 @@ const base = import.meta.env.BASE_URL;
         width="66"
         height="143"
         alt="Twin Spruce Studio logo"
-        class="absolute"
+        class="absolute hidden xl:block"
         style="left: 58px; top: 82px; z-index: 2;"
       />
 
       <!-- TWIN SPRUCE STUDIO heading (z=2, partially behind middle/right tiles) -->
       <div
-        class="absolute font-black"
+        class="absolute font-black hidden xl:block"
         style="left: 152px; top: 73px; font-size: 68px; line-height: 1; letter-spacing: 0.08em; z-index: 2; white-space: nowrap; color: #fffaff;"
       >
         TWIN SPRUCE STUDIO
       </div>
 
+      <!-- Mobile header (hidden on desktop) -->
+      <div class="relative z-10 flex flex-col px-5 pt-5 pb-2 xl:hidden">
+        <p class="font-black text-sm" style="color: #fffaff; letter-spacing: 0.08em;">TWIN SPRUCE STUDIO</p>
+        <p class="text-xs mt-0.5" style="color: rgba(255,250,255,0.6);">Software Dev Portfolio</p>
+      </div>
+
       <!-- Content (z=10) — three columns -->
       <div
-        class="relative grid z-10 gap-5"
-        style="padding: 43px 42px 34px 34px; grid-template-columns: 1fr 311px 215px;"
+        class="relative grid z-10 gap-4 xl:gap-5 p-4 sm:p-5 xl:pt-[43px] xl:pr-[42px] xl:pb-[34px] xl:pl-[34px] grid-cols-1 xl:[grid-template-columns:1fr_311px_215px]"
       >
         <!-- ─── LEFT COLUMN ─── -->
-        <div class="flex flex-col" style="min-height: 806px;">
+        <div class="flex flex-col order-last xl:order-none xl:[min-height:806px]">
           <!-- Three.js morphing geometry -->
-          <div id="three-canvas" class="flex-1 w-full min-h-0 rounded-[20px] overflow-hidden mt-[95px]"></div>
+          <div id="three-canvas" class="hidden xl:block xl:flex-1 w-full min-h-0 rounded-[20px] overflow-hidden xl:mt-[95px]"></div>
           <!-- Profile card at bottom -->
-          <div class="flex items-center gap-4 mt-6">
+          <div class="flex items-center gap-4 mt-0 xl:mt-6">
             <img
               src={`${base}profile.png`}
               alt="Josh Stubbington"
@@ -104,9 +110,9 @@ const base = import.meta.env.BASE_URL;
         </div>
 
         <!-- ─── MIDDLE COLUMN ─── -->
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 order-first xl:order-none">
           <!-- Welcome tile (h=179) -->
-          <div class="tile rounded-[15px] p-5 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="height: 179px; --tile-gradient-dir: to top;">
+          <div class="tile rounded-[15px] p-5 flex flex-col transition-transform duration-200 hover:scale-[1.02] xl:h-[179px]" style="--tile-gradient-dir: to top;">
             <p class="font-bold text-2xl mb-3" style="color: #fffaff;">Welcome!</p>
             <p class="text-sm leading-relaxed" style="color: rgba(255,250,255,0.65);">
               I'm a full-stack developer and designer building thoughtful digital
@@ -115,7 +121,7 @@ const base = import.meta.env.BASE_URL;
           </div>
 
           <!-- MY STACK tile -->
-          <div class="tile rounded-[15px] p-5 flex flex-col flex-1 transition-transform duration-200 hover:scale-[1.02]" style="--tile-gradient-dir: to bottom left;">
+          <div class="tile rounded-[15px] p-5 flex flex-col flex-1 min-h-[320px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="--tile-gradient-dir: to bottom left;">
             <p class="font-bold text-2xl mb-4" style="color: #fffaff;">MY STACK</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
@@ -157,8 +163,8 @@ const base = import.meta.env.BASE_URL;
 
           <!-- FOLLOW ME tile (h=109) -->
           <div
-            class="tile rounded-[15px] p-5 flex flex-col justify-between transition-transform duration-200 hover:scale-[1.02]"
-            style="height: 109px; --tile-gradient-dir: to bottom;"
+            class="tile rounded-[15px] p-5 flex flex-col justify-between transition-transform duration-200 hover:scale-[1.02] xl:h-[109px]"
+            style="--tile-gradient-dir: to bottom;"
           >
             <p class="font-bold text-xl" style="color: #fffaff;">FOLLOW ME</p>
             <div class="flex gap-5 items-center">
@@ -244,11 +250,11 @@ const base = import.meta.env.BASE_URL;
         </div>
 
         <!-- ─── RIGHT COLUMN ─── -->
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3 order-2 xl:order-none">
           <!-- ALL PROJECTS tile (h=215) -->
           <a
             href="#"
-            class="tile rounded-[10px] flex flex-col items-center justify-center transition-transform duration-200 hover:scale-[1.02]"
+            class="tile rounded-[10px] flex flex-col items-center justify-center min-h-[100px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]"
             style="flex: 215 1 0%; text-decoration: none; --tile-gradient-dir: to top right;"
           >
             <span style="font-size: 80px; line-height: 1; color: #fffaff; font-weight: 300;">↗</span>
@@ -261,7 +267,7 @@ const base = import.meta.env.BASE_URL;
           </a>
 
           <!-- Recent Projects tile (h=258) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="flex: 258 1 0%; --tile-gradient-dir: to right;">
+          <div class="tile rounded-[15px] p-4 flex flex-col min-h-[220px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="flex: 258 1 0%; --tile-gradient-dir: to right;">
             <p class="font-bold text-lg mb-3" style="color: #fffaff;">Recent Projects</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
@@ -286,7 +292,7 @@ const base = import.meta.env.BASE_URL;
           </div>
 
           <!-- Other Work tile (h=232) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="flex: 232 1 0%; --tile-gradient-dir: to bottom right;">
+          <div class="tile rounded-[15px] p-4 flex flex-col min-h-[220px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="flex: 232 1 0%; --tile-gradient-dir: to bottom right;">
             <p class="font-bold text-lg mb-3" style="color: #fffaff;">Other Work</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
