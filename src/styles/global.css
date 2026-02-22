@@ -25,6 +25,8 @@
 }
 
 .tile {
+  position: relative;
+  overflow: hidden;
   background:
     linear-gradient(#1e1b18, #1d2023) padding-box,
     linear-gradient(to bottom, transparent, #717c89) border-box;

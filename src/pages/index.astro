@@ -20,12 +20,12 @@ const base = import.meta.env.BASE_URL;
   </head>
 
   <body
-    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0;`}
+    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;`}
   >
     <!-- Dark card -->
     <div
       class="relative overflow-hidden mx-auto rounded-[70px]"
-      style="max-width: 1294px; min-height: 883px; margin-top: 70px; margin-bottom: 70px;"
+      style="width: 100%; max-width: 1294px; min-height: 883px; margin-top: 70px; margin-bottom: 70px;"
     >
       <!-- Background gradient fill -->
       <div
@@ -97,9 +97,9 @@ const base = import.meta.env.BASE_URL;
         </div>
 
         <!-- ─── MIDDLE COLUMN ─── -->
-        <div class="shrink-0 flex flex-col" style="width: 311px;">
+        <div class="shrink-0 flex flex-col gap-4" style="width: 311px;">
           <!-- Welcome tile (h=179) -->
-          <div class="tile rounded-[15px] p-5 flex flex-col" style="height: 179px;">
+          <div class="tile rounded-[15px] p-5 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="height: 179px;">
             <p class="font-bold text-2xl mb-3" style="color: #fffaff;">Welcome!</p>
             <p class="text-sm leading-relaxed" style="color: rgba(255,250,255,0.65);">
               I'm a full-stack developer and designer building thoughtful digital
@@ -107,86 +107,50 @@ const base = import.meta.env.BASE_URL;
             </p>
           </div>
 
-          <!-- Chevron separator (h=70) -->
-          <div class="flex justify-center items-center" style="height: 70px;">
-            <svg
-              width="26"
-              height="15"
-              viewBox="0 0 26 15"
-              fill="none"
-              stroke="#717c89"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="2 13 13 2 24 13"></polyline>
-            </svg>
-          </div>
-
-          <!-- MY STACK tile (h=290) -->
-          <div class="tile rounded-[15px] p-5 flex flex-col" style="height: 290px;">
+          <!-- MY STACK tile -->
+          <div class="tile rounded-[15px] p-5 flex flex-col flex-1 transition-transform duration-200 hover:scale-[1.02]">
             <p class="font-bold text-2xl mb-4" style="color: #fffaff;">MY STACK</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
-                class="h-11 rounded-xl flex items-center px-3"
-                style="background: rgba(255,250,255,0.08);"
+                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
               >
                 <span class="text-sm" style="color: rgba(255,250,255,0.7);"
-                  >Frontend: React, Astro, Vue</span
+                  >Backend: Ruby on Rails, Go, C++</span
                 >
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3"
-                style="background: rgba(255,250,255,0.08);"
+                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
               >
                 <span class="text-sm" style="color: rgba(255,250,255,0.7);"
-                  >Backend: Node.js, Python</span
+                  >Frontend: JavaScript, Angular, React</span
                 >
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3"
-                style="background: rgba(255,250,255,0.08);"
+                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
               >
                 <span class="text-sm" style="color: rgba(255,250,255,0.7);"
-                  >Database: PostgreSQL, Supabase</span
+                  >Database: PostgreSQL, Redis, MongoDB</span
                 >
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3"
-                style="background: rgba(255,250,255,0.08);"
+                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
               >
                 <span class="text-sm" style="color: rgba(255,250,255,0.7);"
-                  >Design: Figma, Tailwind CSS</span
+                  >Tools: Docker, Jenkins, .NET (C#)</span
                 >
               </div>
             </div>
             <button
-              class="mt-3 text-sm font-black self-end px-4 py-1.5 rounded-full transition-colors hover:border-white/60"
-              style="color: #fffaff; border: 1px solid rgba(255,250,255,0.3);"
+              class="mt-3 w-full flex items-center justify-center gap-1.5 rounded-[5px] transition-all duration-150 hover:scale-[1.02]"
+              style="height: 21px; font-size: 12px; font-weight: 400; color: #3e92cc; background: rgba(64,86,244,0.2); border: 1px solid #3e92cc;"
             >
               + View More
             </button>
           </div>
 
-          <!-- Chevron separator (h=69) -->
-          <div class="flex justify-center items-center" style="height: 69px;">
-            <svg
-              width="26"
-              height="15"
-              viewBox="0 0 26 15"
-              fill="none"
-              stroke="#717c89"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="2 13 13 2 24 13"></polyline>
-            </svg>
-          </div>
-
           <!-- FOLLOW ME tile (h=109) -->
           <div
-            class="tile rounded-[15px] p-5 flex flex-col justify-between"
+            class="tile rounded-[15px] p-5 flex flex-col justify-between transition-transform duration-200 hover:scale-[1.02]"
             style="height: 109px;"
           >
             <p class="font-bold text-xl" style="color: #fffaff;">FOLLOW ME</p>
@@ -196,6 +160,7 @@ const base = import.meta.env.BASE_URL;
                 href="https://github.com/ayfor"
                 target="_blank"
                 rel="noopener noreferrer"
+                class="transition-transform duration-150 hover:scale-110"
                 style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
                 onmouseover="this.style.color='#fffaff'"
                 onmouseout="this.style.color='rgba(255,250,255,0.8)'"
@@ -212,6 +177,7 @@ const base = import.meta.env.BASE_URL;
                 href="https://x.com/ayfor"
                 target="_blank"
                 rel="noopener noreferrer"
+                class="transition-transform duration-150 hover:scale-110"
                 style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
                 onmouseover="this.style.color='#fffaff'"
                 onmouseout="this.style.color='rgba(255,250,255,0.8)'"
@@ -228,6 +194,7 @@ const base = import.meta.env.BASE_URL;
                 href="https://linkedin.com/in/joshstubbington"
                 target="_blank"
                 rel="noopener noreferrer"
+                class="transition-transform duration-150 hover:scale-110"
                 style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
                 onmouseover="this.style.color='#fffaff'"
                 onmouseout="this.style.color='rgba(255,250,255,0.8)'"
@@ -244,6 +211,7 @@ const base = import.meta.env.BASE_URL;
                 href="https://app.gumroad.com/ayfor"
                 target="_blank"
                 rel="noopener noreferrer"
+                class="transition-transform duration-150 hover:scale-110"
                 style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
                 onmouseover="this.style.color='#fffaff'"
                 onmouseout="this.style.color='rgba(255,250,255,0.8)'"
@@ -261,8 +229,8 @@ const base = import.meta.env.BASE_URL;
           <!-- Download Resume button (h=74) -->
           <a
             href={`${base}resume.pdf`}
-            class="flex items-center justify-center font-black text-xl shrink-0 transition-opacity hover:opacity-90"
-            style="margin-top: 15px; height: 74px; background: #3e92cc; color: #fffaff; border-radius: 10px 10px 60px 10px; text-decoration: none;"
+            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform duration-200 hover:scale-[1.03]"
+            style="height: 74px; background: #3e92cc; color: #fffaff; border-radius: 10px 10px 10px 60px; text-decoration: none;"
           >
             Download Resume
           </a>
@@ -273,7 +241,7 @@ const base = import.meta.env.BASE_URL;
           <!-- ALL PROJECTS tile (h=215) -->
           <a
             href="#"
-            class="tile rounded-[10px] flex flex-col items-center justify-center transition-opacity hover:opacity-90"
+            class="tile rounded-[10px] flex flex-col items-center justify-center transition-transform duration-200 hover:scale-[1.02]"
             style="height: 215px; text-decoration: none;"
           >
             <span style="font-size: 80px; line-height: 1; color: #fffaff; font-weight: 300;">↗</span>
@@ -286,49 +254,49 @@ const base = import.meta.env.BASE_URL;
           </a>
 
           <!-- Recent Projects tile (h=258) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col" style="height: 258px; margin-top: 13px;">
+          <div class="tile rounded-[15px] p-4 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="height: 258px; margin-top: 13px;">
             <p class="font-bold text-lg mb-3" style="color: #fffaff;">Recent Projects</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
-                class="rounded-lg flex items-center px-3"
-                style="height: 48px; background: rgba(255,250,255,0.08);"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">TSS Portfolio v3</span>
               </div>
               <div
-                class="rounded-lg flex items-center px-3"
-                style="height: 48px; background: rgba(255,250,255,0.08);"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Project Two</span>
               </div>
               <div
-                class="rounded-lg flex items-center px-3"
-                style="height: 48px; background: rgba(255,250,255,0.08);"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Project Three</span>
               </div>
             </div>
           </div>
 
-          <!-- Other Work tile (h=210) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col" style="height: 210px; margin-top: 21px;">
+          <!-- Other Work tile (h=232) -->
+          <div class="tile rounded-[15px] p-4 flex flex-col transition-transform duration-200 hover:scale-[1.02]" style="height: 232px; margin-top: 21px;">
             <p class="font-bold text-lg mb-3" style="color: #fffaff;">Other Work</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
-                class="rounded-lg flex items-center px-3"
-                style="height: 48px; background: rgba(255,250,255,0.08);"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Freelance Design</span>
               </div>
               <div
-                class="rounded-lg flex items-center px-3"
-                style="height: 48px; background: rgba(255,250,255,0.08);"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Open Source</span>
               </div>
               <div
-                class="rounded-lg flex items-center px-3"
-                style="height: 48px; background: rgba(255,250,255,0.08);"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Photography</span>
               </div>
@@ -338,13 +306,40 @@ const base = import.meta.env.BASE_URL;
           <!-- Contact Me button (h=74) -->
           <a
             href="mailto:hello@twinssprucestudio.com"
-            class="flex items-center justify-center font-black text-xl shrink-0 transition-opacity hover:opacity-90"
-            style="margin-top: 15px; height: 74px; background: #d8315b; color: #fffaff; border-radius: 10px 10px 10px 60px; text-decoration: none;"
+            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform duration-200 hover:scale-[1.03]"
+            style="height: 74px; background: #d8315b; color: #fffaff; border-radius: 10px 10px 60px 10px; text-decoration: none;"
           >
             Contact Me
           </a>
         </div>
       </div>
     </div>
+    <script>
+      document.querySelectorAll('.tile, .spotlight').forEach(el => {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = [
+          'position:absolute',
+          'inset:0',
+          'pointer-events:none',
+          'border-radius:inherit',
+          'opacity:0',
+          'transition:opacity 0.35s ease',
+          'z-index:10',
+        ].join(';');
+        el.appendChild(overlay);
+
+        el.addEventListener('mousemove', e => {
+          const { left, top } = el.getBoundingClientRect();
+          const x = e.clientX - left;
+          const y = e.clientY - top;
+          overlay.style.background = `radial-gradient(circle 120px at ${x}px ${y}px, rgba(255,255,255,0.025), transparent 70%)`;
+          overlay.style.opacity = '1';
+        });
+
+        el.addEventListener('mouseleave', () => {
+          overlay.style.opacity = '0';
+        });
+      });
+    </script>
   </body>
 </html>
