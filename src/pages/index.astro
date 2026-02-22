@@ -1,0 +1,350 @@
+---
+import '../styles/global.css';
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={`${base}tss-logo.svg`} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Twin Spruce Studio — Josh Stubbington</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0;`}
+  >
+    <!-- Dark card -->
+    <div
+      class="relative overflow-hidden mx-auto rounded-[70px]"
+      style="max-width: 1294px; min-height: 883px; margin-top: 70px; margin-bottom: 70px;"
+    >
+      <!-- Background gradient fill -->
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(135deg, #1e1b18 0%, rgba(0,0,0,0.88) 100%);"
+      ></div>
+
+      <!-- Lava lamp blobs (z=1) -->
+      <div class="absolute inset-0 pointer-events-none" style="z-index: 1; overflow: hidden;">
+        <div
+          style="position:absolute; width:280px; height:280px; left:8%; top:20%; border-radius:50%; background:radial-gradient(circle, rgba(124,58,237,0.7), transparent 70%); filter:blur(50px); animation: blob 11s ease-in-out infinite; animation-delay:0s;"
+        ></div>
+        <div
+          style="position:absolute; width:240px; height:240px; left:38%; top:45%; border-radius:50%; background:radial-gradient(circle, rgba(8,145,178,0.6), transparent 70%); filter:blur(55px); animation: blob 14s ease-in-out infinite; animation-delay:-4s;"
+        ></div>
+        <div
+          style="position:absolute; width:260px; height:260px; left:18%; top:60%; border-radius:50%; background:radial-gradient(circle, rgba(219,49,91,0.55), transparent 70%); filter:blur(50px); animation: blob 12s ease-in-out infinite; animation-delay:-7s;"
+        ></div>
+        <div
+          style="position:absolute; width:200px; height:200px; left:55%; top:15%; border-radius:50%; background:radial-gradient(circle, rgba(5,150,105,0.55), transparent 70%); filter:blur(55px); animation: blob 15s ease-in-out infinite; animation-delay:-10s;"
+        ></div>
+        <div
+          style="position:absolute; width:220px; height:220px; left:5%; top:75%; border-radius:50%; background:radial-gradient(circle, rgba(234,88,12,0.5), transparent 70%); filter:blur(50px); animation: blob 10s ease-in-out infinite; animation-delay:-5s;"
+        ></div>
+      </div>
+
+      <!-- TSS Logo (z=2, sits behind tiles) -->
+      <img
+        src={`${base}tss-logo.svg`}
+        width="66"
+        height="143"
+        alt="Twin Spruce Studio logo"
+        class="absolute"
+        style="left: 58px; top: 82px; z-index: 2;"
+      />
+
+      <!-- TWIN SPRUCE STUDIO heading (z=2, partially behind middle/right tiles) -->
+      <div
+        class="absolute font-black"
+        style="left: 152px; top: 73px; font-size: 68px; line-height: 1; letter-spacing: 0.08em; z-index: 2; white-space: nowrap; color: #fffaff;"
+      >
+        TWIN SPRUCE STUDIO
+      </div>
+
+      <!-- Content (z=10) — three columns -->
+      <div
+        class="relative flex"
+        style="z-index: 10; padding: 43px 42px 34px 34px; gap: 20px;"
+      >
+        <!-- ─── LEFT COLUMN ─── -->
+        <div class="flex-1 flex flex-col justify-end" style="min-height: 806px;">
+          <!-- Profile card at bottom -->
+          <div class="flex items-center gap-4">
+            <img
+              src={`${base}profile.png`}
+              alt="Josh Stubbington"
+              class="shrink-0 rounded-full object-cover"
+              style="width: 80px; height: 80px;"
+            />
+            <div>
+              <p class="font-bold" style="font-size: 36px; line-height: 1; color: #fffaff;">
+                JOSH STUBBINGTON
+              </p>
+              <p class="text-sm mt-1" style="color: rgba(255,250,255,0.6);">
+                Full Stack Developer &middot; Vancouver, BC
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── MIDDLE COLUMN ─── -->
+        <div class="shrink-0 flex flex-col" style="width: 311px;">
+          <!-- Welcome tile (h=179) -->
+          <div class="tile rounded-[15px] p-5 flex flex-col" style="height: 179px;">
+            <p class="font-bold text-2xl mb-3" style="color: #fffaff;">Welcome!</p>
+            <p class="text-sm leading-relaxed" style="color: rgba(255,250,255,0.65);">
+              I'm a full-stack developer and designer building thoughtful digital
+              experiences — from concept through deployment.
+            </p>
+          </div>
+
+          <!-- Chevron separator (h=70) -->
+          <div class="flex justify-center items-center" style="height: 70px;">
+            <svg
+              width="26"
+              height="15"
+              viewBox="0 0 26 15"
+              fill="none"
+              stroke="#717c89"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="2 13 13 2 24 13"></polyline>
+            </svg>
+          </div>
+
+          <!-- MY STACK tile (h=290) -->
+          <div class="tile rounded-[15px] p-5 flex flex-col" style="height: 290px;">
+            <p class="font-bold text-2xl mb-4" style="color: #fffaff;">MY STACK</p>
+            <div class="flex flex-col gap-2 flex-1">
+              <div
+                class="h-11 rounded-xl flex items-center px-3"
+                style="background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-sm" style="color: rgba(255,250,255,0.7);"
+                  >Frontend: React, Astro, Vue</span
+                >
+              </div>
+              <div
+                class="h-11 rounded-xl flex items-center px-3"
+                style="background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-sm" style="color: rgba(255,250,255,0.7);"
+                  >Backend: Node.js, Python</span
+                >
+              </div>
+              <div
+                class="h-11 rounded-xl flex items-center px-3"
+                style="background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-sm" style="color: rgba(255,250,255,0.7);"
+                  >Database: PostgreSQL, Supabase</span
+                >
+              </div>
+              <div
+                class="h-11 rounded-xl flex items-center px-3"
+                style="background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-sm" style="color: rgba(255,250,255,0.7);"
+                  >Design: Figma, Tailwind CSS</span
+                >
+              </div>
+            </div>
+            <button
+              class="mt-3 text-sm font-black self-end px-4 py-1.5 rounded-full transition-colors hover:border-white/60"
+              style="color: #fffaff; border: 1px solid rgba(255,250,255,0.3);"
+            >
+              + View More
+            </button>
+          </div>
+
+          <!-- Chevron separator (h=69) -->
+          <div class="flex justify-center items-center" style="height: 69px;">
+            <svg
+              width="26"
+              height="15"
+              viewBox="0 0 26 15"
+              fill="none"
+              stroke="#717c89"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="2 13 13 2 24 13"></polyline>
+            </svg>
+          </div>
+
+          <!-- FOLLOW ME tile (h=109) -->
+          <div
+            class="tile rounded-[15px] p-5 flex flex-col justify-between"
+            style="height: 109px;"
+          >
+            <p class="font-bold text-xl" style="color: #fffaff;">FOLLOW ME</p>
+            <div class="flex gap-5 items-center">
+              <!-- GitHub -->
+              <a
+                href="https://github.com/ayfor"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
+                onmouseover="this.style.color='#fffaff'"
+                onmouseout="this.style.color='rgba(255,250,255,0.8)'"
+                aria-label="GitHub"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+                  ></path>
+                </svg>
+              </a>
+              <!-- X / Twitter -->
+              <a
+                href="https://x.com/ayfor"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
+                onmouseover="this.style.color='#fffaff'"
+                onmouseout="this.style.color='rgba(255,250,255,0.8)'"
+                aria-label="X (Twitter)"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                  ></path>
+                </svg>
+              </a>
+              <!-- LinkedIn -->
+              <a
+                href="https://linkedin.com/in/joshstubbington"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
+                onmouseover="this.style.color='#fffaff'"
+                onmouseout="this.style.color='rgba(255,250,255,0.8)'"
+                aria-label="LinkedIn"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  ></path>
+                </svg>
+              </a>
+              <!-- Gumroad -->
+              <a
+                href="https://app.gumroad.com/ayfor"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
+                onmouseover="this.style.color='#fffaff'"
+                onmouseout="this.style.color='rgba(255,250,255,0.8)'"
+                aria-label="Gumroad"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm5.82 14.43a6.48 6.48 0 0 1-6.487 5.783 6.48 6.48 0 0 1-6.48-6.481A6.48 6.48 0 0 1 11.333 7.25h4.38v2.56h-4.38c-2.168 0-3.922 1.754-3.922 3.923s1.754 3.921 3.922 3.921c1.782 0 3.28-1.187 3.769-2.814H12V12.28h5.82v2.15z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Download Resume button (h=74) -->
+          <a
+            href={`${base}resume.pdf`}
+            class="flex items-center justify-center font-black text-xl shrink-0 transition-opacity hover:opacity-90"
+            style="margin-top: 15px; height: 74px; background: #3e92cc; color: #fffaff; border-radius: 10px 10px 60px 10px; text-decoration: none;"
+          >
+            Download Resume
+          </a>
+        </div>
+
+        <!-- ─── RIGHT COLUMN ─── -->
+        <div class="shrink-0 flex flex-col" style="width: 215px;">
+          <!-- ALL PROJECTS tile (h=215) -->
+          <a
+            href="#"
+            class="tile rounded-[10px] flex flex-col items-center justify-center transition-opacity hover:opacity-90"
+            style="height: 215px; text-decoration: none;"
+          >
+            <span style="font-size: 80px; line-height: 1; color: #fffaff; font-weight: 300;">↗</span>
+            <p
+              class="font-black text-xs mt-2"
+              style="color: #fffaff; letter-spacing: 0.18em;"
+            >
+              ALL PROJECTS
+            </p>
+          </a>
+
+          <!-- Recent Projects tile (h=258) -->
+          <div class="tile rounded-[15px] p-4 flex flex-col" style="height: 258px; margin-top: 13px;">
+            <p class="font-bold text-lg mb-3" style="color: #fffaff;">Recent Projects</p>
+            <div class="flex flex-col gap-2 flex-1">
+              <div
+                class="rounded-lg flex items-center px-3"
+                style="height: 48px; background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-xs" style="color: rgba(255,250,255,0.65);">TSS Portfolio v3</span>
+              </div>
+              <div
+                class="rounded-lg flex items-center px-3"
+                style="height: 48px; background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Project Two</span>
+              </div>
+              <div
+                class="rounded-lg flex items-center px-3"
+                style="height: 48px; background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Project Three</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Other Work tile (h=210) -->
+          <div class="tile rounded-[15px] p-4 flex flex-col" style="height: 210px; margin-top: 21px;">
+            <p class="font-bold text-lg mb-3" style="color: #fffaff;">Other Work</p>
+            <div class="flex flex-col gap-2 flex-1">
+              <div
+                class="rounded-lg flex items-center px-3"
+                style="height: 48px; background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Freelance Design</span>
+              </div>
+              <div
+                class="rounded-lg flex items-center px-3"
+                style="height: 48px; background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Open Source</span>
+              </div>
+              <div
+                class="rounded-lg flex items-center px-3"
+                style="height: 48px; background: rgba(255,250,255,0.08);"
+              >
+                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Photography</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Me button (h=74) -->
+          <a
+            href="mailto:hello@twinssprucestudio.com"
+            class="flex items-center justify-center font-black text-xl shrink-0 transition-opacity hover:opacity-90"
+            style="margin-top: 15px; height: 74px; background: #d8315b; color: #fffaff; border-radius: 10px 10px 10px 60px; text-decoration: none;"
+          >
+            Contact Me
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

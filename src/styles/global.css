@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --font-rubik: 'Rubik', sans-serif;
+  --color-tss-white: #fffaff;
+  --color-tss-blue: #3e92cc;
+  --color-tss-pink: #d8315b;
+  --color-card: #1e1b18;
+  --color-card2: #1d2023;
+  --color-border-tile: #717c89;
+}
+
+@layer base {
+  body {
+    font-family: 'Rubik', sans-serif;
+    color: #fffaff;
+  }
+}
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%       { transform: translate(40px, -30px) scale(1.12); }
+  50%       { transform: translate(-25px, 20px) scale(0.94); }
+  75%       { transform: translate(25px, 35px) scale(1.06); }
+}
+
+.tile {
+  background:
+    linear-gradient(#1e1b18, #1d2023) padding-box,
+    linear-gradient(to bottom, transparent, #717c89) border-box;
+  border: 1px solid transparent;
+}
