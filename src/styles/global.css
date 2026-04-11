@@ -11,14 +11,7 @@
   --color-card2:           #1d2023;
   --color-border-tile:     rgba(113, 124, 137, 0.5);
 
-  --animate-blob: blob 11s ease-in-out infinite;
 
-  @keyframes blob {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25%       { transform: translate(40px, -30px) scale(1.12); }
-    50%       { transform: translate(-25px, 20px) scale(0.94); }
-    75%       { transform: translate(25px, 35px) scale(1.06); }
-  }
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────────── */
@@ -39,6 +32,7 @@
       linear-gradient(var(--color-card), var(--color-card2)) padding-box,
       linear-gradient(var(--tile-gradient-dir), rgba(113, 124, 137, 0.2), var(--color-border-tile)) border-box;
     border: 2px solid transparent;
+    will-change: transform;
   }
 
   .view-more-btn:hover {

@@ -32,37 +32,18 @@ const base = import.meta.env.BASE_URL;
     <!-- Dark card -->
     <div
       class="relative z-[1] overflow-hidden mx-auto rounded-[20px] sm:rounded-[40px] xl:rounded-[70px] xl:min-h-[883px]"
-      style="width: 100%; max-width: 1294px;"
+      style="width: 100%; max-width: 1294px; border: 1px solid rgba(113, 124, 137, 0.25);"
     >
       <!-- Background gradient fill -->
       <div
         class="absolute inset-0"
         style="background: linear-gradient(135deg, #1e1b18 0%, rgba(0,0,0,0.88) 100%);"
       ></div>
-
-      <!-- Lava lamp blobs (z=1) -->
-      <div class="absolute inset-0 pointer-events-none overflow-hidden" style="z-index: 1;">
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(50px)] [animation-duration:11s]"
-          style="width:280px; height:280px; left:8%; top:20%; background:radial-gradient(circle, rgba(124,58,237,0.7), transparent 70%);"
-        ></div>
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(55px)] [animation-duration:14s] [animation-delay:-4s]"
-          style="width:240px; height:240px; left:38%; top:45%; background:radial-gradient(circle, rgba(8,145,178,0.6), transparent 70%);"
-        ></div>
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(50px)] [animation-duration:12s] [animation-delay:-7s]"
-          style="width:260px; height:260px; left:18%; top:60%; background:radial-gradient(circle, rgba(219,49,91,0.55), transparent 70%);"
-        ></div>
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(55px)] [animation-duration:15s] [animation-delay:-10s]"
-          style="width:200px; height:200px; left:55%; top:15%; background:radial-gradient(circle, rgba(5,150,105,0.55), transparent 70%);"
-        ></div>
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(50px)] [animation-duration:10s] [animation-delay:-5s]"
-          style="width:220px; height:220px; left:5%; top:75%; background:radial-gradient(circle, rgba(234,88,12,0.5), transparent 70%);"
-        ></div>
-      </div>
+      <!-- Inner glow -->
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(255,255,255,0.07) 100%);"
+      ></div>
 
       <!-- TSS Logo (z=2, sits behind tiles) -->
       <img
@@ -118,7 +99,7 @@ const base = import.meta.env.BASE_URL;
         <!-- ─── MIDDLE COLUMN ─── -->
         <div class="flex flex-col gap-4 order-first xl:order-none">
           <!-- Welcome tile (h=179) -->
-          <div class="tile rounded-[15px] p-5 flex flex-col transition-transform duration-200 hover:scale-[1.02] xl:h-[179px]" style="--tile-gradient-dir: to top;">
+          <div class="tile rounded-[15px] p-5 flex flex-col transition-transform ease-in-out duration-300 hover:scale-[1.02] xl:h-[179px]" style="--tile-gradient-dir: to top;">
             <p class="font-bold text-2xl mb-3" style="color: #fffaff;">Welcome!</p>
             <p class="text-sm leading-relaxed" style="color: rgba(255,250,255,0.65);">
               I'm a full-stack developer and designer building thoughtful digital
@@ -127,32 +108,32 @@ const base = import.meta.env.BASE_URL;
           </div>
 
           <!-- MY STACK tile -->
-          <div class="tile rounded-[15px] p-5 flex flex-col flex-1 min-h-[320px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="--tile-gradient-dir: to bottom left;">
+          <div class="tile rounded-[15px] p-5 flex flex-col flex-1 min-h-[320px] xl:min-h-0 transition-transform ease-in-out duration-300 hover:scale-[1.02]" style="--tile-gradient-dir: to bottom left;">
             <p class="font-bold text-2xl mb-4" style="color: #fffaff;">MY STACK</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
-                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
               >
                 <span class="text-sm" style="color: rgba(255,250,255,0.7);"
                   >Backend: Ruby on Rails, Go, C++</span
                 >
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
               >
                 <span class="text-sm" style="color: rgba(255,250,255,0.7);"
                   >Frontend: JavaScript, Angular, React</span
                 >
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
               >
                 <span class="text-sm" style="color: rgba(255,250,255,0.7);"
                   >Database: PostgreSQL, Redis, MongoDB</span
                 >
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
               >
                 <span class="text-sm" style="color: rgba(255,250,255,0.7);"
                   >Tools: Docker, Jenkins, .NET (C#)</span
@@ -160,7 +141,7 @@ const base = import.meta.env.BASE_URL;
               </div>
             </div>
             <button
-              class="view-more-btn mt-3 w-full flex items-center justify-center gap-1.5 rounded-[5px] transition-all duration-150 hover:scale-[1.02] hover:shadow-[0_0_14px_rgba(62,146,204,0.5)]"
+              class="view-more-btn mt-3 w-full flex items-center justify-center gap-1.5 rounded-[5px] transition ease-in-out duration-300 hover:scale-105 hover:shadow-[0_0_14px_rgba(62,146,204,0.5)]"
               style="height: 21px; font-size: 12px; font-weight: 400; color: #3e92cc; background: rgba(64,86,244,0.2); border: 1px solid #3e92cc;"
             >
               + View More
@@ -169,7 +150,7 @@ const base = import.meta.env.BASE_URL;
 
           <!-- FOLLOW ME tile (h=109) -->
           <div
-            class="tile rounded-[15px] p-5 flex flex-col justify-between transition-transform duration-200 hover:scale-[1.02] xl:h-[109px]"
+            class="tile rounded-[15px] p-5 flex flex-col justify-between transition-transform ease-in-out duration-300 hover:scale-[1.02] xl:h-[109px]"
             style="--tile-gradient-dir: to bottom;"
           >
             <p class="font-bold text-xl" style="color: #fffaff;">FOLLOW ME</p>
@@ -179,8 +160,8 @@ const base = import.meta.env.BASE_URL;
                 href="https://github.com/ayfor"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transition-transform duration-150 hover:scale-110"
-                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
+                class="transition-transform ease-in-out duration-300 hover:scale-110"
+                style="color: rgba(255,250,255,0.8); transition: color 0.1s;"
                 onmouseover="this.style.color='#fffaff'"
                 onmouseout="this.style.color='rgba(255,250,255,0.8)'"
                 aria-label="GitHub"
@@ -196,8 +177,8 @@ const base = import.meta.env.BASE_URL;
                 href="https://x.com/ayfor"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transition-transform duration-150 hover:scale-110"
-                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
+                class="transition-transform ease-in-out duration-300 hover:scale-110"
+                style="color: rgba(255,250,255,0.8); transition: color 0.1s;"
                 onmouseover="this.style.color='#fffaff'"
                 onmouseout="this.style.color='rgba(255,250,255,0.8)'"
                 aria-label="X (Twitter)"
@@ -213,8 +194,8 @@ const base = import.meta.env.BASE_URL;
                 href="https://linkedin.com/in/joshstubbington"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transition-transform duration-150 hover:scale-110"
-                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
+                class="transition-transform ease-in-out duration-300 hover:scale-110"
+                style="color: rgba(255,250,255,0.8); transition: color 0.1s;"
                 onmouseover="this.style.color='#fffaff'"
                 onmouseout="this.style.color='rgba(255,250,255,0.8)'"
                 aria-label="LinkedIn"
@@ -230,8 +211,8 @@ const base = import.meta.env.BASE_URL;
                 href="https://app.gumroad.com/ayfor"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transition-transform duration-150 hover:scale-110"
-                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
+                class="transition-transform ease-in-out duration-300 hover:scale-110"
+                style="color: rgba(255,250,255,0.8); transition: color 0.1s;"
                 onmouseover="this.style.color='#fffaff'"
                 onmouseout="this.style.color='rgba(255,250,255,0.8)'"
                 aria-label="Gumroad"
@@ -248,7 +229,7 @@ const base = import.meta.env.BASE_URL;
           <!-- Download Resume button (h=74) -->
           <a
             href={`${base}resume.pdf`}
-            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform duration-200 hover:scale-[1.03]"
+            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform ease-in-out duration-300 hover:scale-105 active:scale-95"
             style="height: 74px; background: #3e92cc; color: #fffaff; border-radius: 10px 10px 10px 60px; text-decoration: none;"
           >
             Download Resume
@@ -260,7 +241,7 @@ const base = import.meta.env.BASE_URL;
           <!-- ALL PROJECTS tile (h=215) -->
           <a
             href="#"
-            class="tile rounded-[10px] flex flex-col items-center justify-center min-h-[100px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]"
+            class="tile rounded-[10px] flex flex-col items-center justify-center min-h-[100px] xl:min-h-0 transition-transform ease-in-out duration-300 hover:scale-[1.02]"
             style="flex: 215 1 0%; text-decoration: none; --tile-gradient-dir: to top right;"
           >
             <span style="font-size: 80px; line-height: 1; color: #fffaff; font-weight: 300;">↗</span>
@@ -273,23 +254,23 @@ const base = import.meta.env.BASE_URL;
           </a>
 
           <!-- Recent Projects tile (h=258) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col min-h-[220px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="flex: 258 1 0%; --tile-gradient-dir: to right;">
+          <div class="tile rounded-[15px] p-4 flex flex-col min-h-[220px] xl:min-h-0 transition-transform ease-in-out duration-300 hover:scale-[1.02]" style="flex: 258 1 0%; --tile-gradient-dir: to right;">
             <p class="font-bold text-lg mb-3" style="color: #fffaff;">Recent Projects</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
                 style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">TSS Portfolio v3</span>
               </div>
               <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
                 style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Project Two</span>
               </div>
               <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
                 style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Project Three</span>
@@ -298,23 +279,23 @@ const base = import.meta.env.BASE_URL;
           </div>
 
           <!-- Other Work tile (h=232) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col min-h-[220px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="flex: 232 1 0%; --tile-gradient-dir: to bottom right;">
+          <div class="tile rounded-[15px] p-4 flex flex-col min-h-[220px] xl:min-h-0 transition-transform ease-in-out duration-300 hover:scale-[1.02]" style="flex: 232 1 0%; --tile-gradient-dir: to bottom right;">
             <p class="font-bold text-lg mb-3" style="color: #fffaff;">Other Work</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
                 style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Freelance Design</span>
               </div>
               <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
                 style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Open Source</span>
               </div>
               <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition ease-in-out duration-300 cursor-default"
                 style="height: 48px;"
               >
                 <span class="text-xs" style="color: rgba(255,250,255,0.65);">Photography</span>
@@ -325,7 +306,7 @@ const base = import.meta.env.BASE_URL;
           <!-- Contact Me button -->
           <a
             href="mailto:hello@twinssprucestudio.com"
-            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform duration-200 hover:scale-[1.03]"
+            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform ease-in-out duration-300 hover:scale-105 active:scale-95"
             style="height: 74px; background: #d8315b; color: #fffaff; border-radius: 10px 10px 60px 10px; text-decoration: none;"
           >
             Contact Me
@@ -680,33 +661,6 @@ const base = import.meta.env.BASE_URL;
       new ResizeObserver(sizeRenderer).observe(container);
     </script>
 
-    <script>
-      document.querySelectorAll('.tile, .spotlight').forEach(el => {
-        const overlay = document.createElement('div');
-        overlay.style.cssText = [
-          'position:absolute',
-          'inset:0',
-          'pointer-events:none',
-          'border-radius:inherit',
-          'opacity:0',
-          'transition:opacity 0.35s ease',
-          'z-index:10',
-        ].join(';');
-        el.appendChild(overlay);
-
-        el.addEventListener('mousemove', e => {
-          const { left, top } = el.getBoundingClientRect();
-          const x = e.clientX - left;
-          const y = e.clientY - top;
-          overlay.style.background = `radial-gradient(circle 120px at ${x}px ${y}px, rgba(255,255,255,0.025), transparent 70%)`;
-          overlay.style.opacity = '1';
-        });
-
-        el.addEventListener('mouseleave', () => {
-          overlay.style.opacity = '0';
-        });
-      });
-    </script>
 
     <script>
       import { createNoise3D } from 'simplex-noise';
