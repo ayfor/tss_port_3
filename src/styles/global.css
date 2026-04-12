@@ -7,11 +7,10 @@
   --color-tss-white:       #fffaff;
   --color-tss-blue:        #3e92cc;
   --color-tss-pink:        #d8315b;
+  --color-tss-bg:          #1c1a2e;
   --color-card:            #1e1b18;
   --color-card2:           #1d2023;
   --color-border-tile:     rgba(113, 124, 137, 0.5);
-
-
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────────── */
