@@ -34,7 +34,65 @@
     will-change: transform;
   }
 
-  .view-more-btn:hover {
-    background: rgba(62, 146, 204, 0.28) !important;
+  .stack-row {
+    --stack-color-from: rgba(113, 124, 137, 0.2);
+    --stack-color-to: rgba(113, 124, 137, 0.5);
+    background:
+      linear-gradient(var(--color-card), var(--color-card2)) padding-box,
+      linear-gradient(to right, var(--stack-color-from), var(--stack-color-to)) border-box;
+    border: 1px solid transparent;
+  }
+
+  /* Tile with hover lift — shared by all bento tiles */
+  .tile-hover {
+    @apply rounded-[15px] flex flex-col transition-transform ease-in-out duration-300;
+    &:hover { transform: scale(1.02); }
+  }
+
+  /* Social icon button (Follow Me) */
+  .social-btn {
+    @apply flex items-center justify-center size-10 rounded-full transition-all ease-in-out duration-300;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 250, 255, 0.8);
+    &:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fffaff;
+      transform: scale(1.1);
+    }
+  }
+
+  /* CTA button (Contact Me / Download Resume) */
+  .cta-btn {
+    @apply relative overflow-hidden flex items-center justify-center font-black text-base shrink-0 mt-auto h-14 text-tss-white no-underline transition-transform ease-in-out duration-300;
+    &:hover { transform: scale(1.05); }
+    &:active { transform: scale(0.95); }
+  }
+
+  /* Other Work row */
+  .work-row {
+    @apply rounded-lg flex items-center px-2.5;
+    height: 34px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Link icon button (Other Work external links) */
+  .link-btn {
+    @apply shrink-0 flex items-center justify-center size-6 rounded transition-colors;
+    background: rgba(255, 255, 255, 0.12);
+    &:hover { background: rgba(255, 255, 255, 0.20); }
+  }
+
+  /* Recent Project card header */
+  .project-header {
+    @apply flex items-center gap-2.5 px-3 py-2;
+  }
+
+  /* Recent Project card body */
+  .project-body {
+    @apply px-3 pb-2.5 flex-1;
+  }
+  .project-body p {
+    @apply text-[11px] leading-snug;
+    color: rgba(255, 250, 255, 0.55);
   }
 }
