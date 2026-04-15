@@ -73,11 +73,11 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         class="relative grid z-10 gap-4 xl:gap-5 p-4 sm:p-5 xl:pt-[43px] xl:pr-[42px] xl:pb-[34px] xl:pl-[34px] grid-cols-1 xl:[grid-template-columns:1fr_311px_215px]"
       >
         <!-- ─── LEFT COLUMN ─── -->
-        <div class="flex flex-col order-last xl:order-none xl:[min-height:806px]">
+        <div class="contents xl:flex xl:flex-col xl:order-none xl:[min-height:806px]">
           <!-- Three.js morphing geometry -->
           <div id="three-canvas" class="hidden xl:block xl:flex-1 w-full min-h-0 rounded-[20px] overflow-hidden xl:mt-[95px]"></div>
           <!-- Profile card at bottom -->
-          <div class="flex items-center gap-4 mt-0 xl:mt-6">
+          <div class="order-1 xl:order-none flex items-center gap-4 mt-0 xl:mt-6">
             <div class="shrink-0 rounded-full flex items-center justify-center size-[92px] border-2 border-tss-white/20">
               <img
                 src={`${base}profile.png`}
@@ -86,20 +86,20 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
               />
             </div>
             <div>
-              <p class="font-bold text-4xl leading-none text-tss-white">
+              <p class="font-bold text-2xl sm:text-3xl xl:text-4xl leading-none text-tss-white">
                 JOSH STUBBINGTON
               </p>
               <p class="text-sm mt-1 text-tss-white/60">
-                Full Stack Developer &middot; Ottawa, ON
+                Full Stack Developer<span class="hidden xl:inline"> &middot; </span><br class="xl:hidden" />Ottawa, ON
               </p>
             </div>
           </div>
         </div>
 
         <!-- ─── MIDDLE COLUMN ─── -->
-        <div class="flex flex-col gap-4 order-first xl:order-none">
+        <div class="contents xl:flex xl:flex-col xl:gap-4 xl:order-none">
           <!-- Welcome tile (h=179) -->
-          <div class="tile tile-hover p-6 xl:h-[220px]" style="--tile-gradient-dir: to top;">
+          <div class="tile tile-hover p-6 xl:h-[220px] order-2 xl:order-none" style="--tile-gradient-dir: to top;">
             <p class="font-bold text-2xl mb-4 text-tss-white">Welcome!</p>
             <p class="text-sm leading-relaxed text-tss-white/65">
               Full-stack developer with 5 years of experience shipping web applications
@@ -109,7 +109,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
           </div>
 
           <!-- MY STACK tile -->
-          <div class="tile tile-hover p-5 flex-1 min-h-[320px] xl:min-h-0" style="--tile-gradient-dir: to bottom left;">
+          <div class="tile tile-hover p-5 xl:flex-1 min-h-[320px] xl:min-h-0 order-6 xl:order-none" style="--tile-gradient-dir: to bottom left;">
             <p class="font-bold text-2xl mb-4 text-tss-white">MY STACK</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
@@ -145,7 +145,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
           <!-- FOLLOW ME tile (h=109) -->
           <div
-            class="tile tile-hover p-5 justify-between gap-2 xl:h-[109px]"
+            class="tile tile-hover p-5 justify-between gap-2 xl:h-[109px] order-7 xl:order-none"
             style="--tile-gradient-dir: to bottom;"
           >
             <p class="font-bold text-xl text-tss-white">FOLLOW ME</p>
@@ -212,20 +212,19 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
           <!-- Contact Me button -->
           <a
             href="mailto:hello@twinssprucestudio.com"
-            class="cta-btn spotlight bg-tss-pink"
-            style="border-radius: 10px 10px 10px 60px;"
+            class="cta-btn spotlight bg-tss-pink hidden xl:flex xl:[border-radius:10px_10px_10px_60px]"
           >
             Contact Me
           </a>
         </div>
 
         <!-- ─── RIGHT COLUMN ─── -->
-        <div class="flex flex-col gap-3 order-2 xl:order-none">
+        <div class="contents xl:flex xl:flex-col xl:gap-3 xl:order-none">
           <!-- ALL PROJECTS tile (h=215) -->
           <a
             href="#"
-            class="flex flex-col items-center justify-center min-h-[100px] xl:min-h-0 no-underline transition-all ease-in-out duration-300 hover:scale-[1.02] hover:brightness-110"
-            style="flex: 175 1 0%; background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(8,145,178,0.12) 50%, rgba(5,150,105,0.10) 100%); border: 2px solid rgba(124,58,237,0.25); border-radius: 10px 60px 10px 10px;"
+            class="order-4 xl:order-none flex flex-col items-center justify-center min-h-[100px] xl:min-h-0 no-underline transition-all ease-in-out duration-300 hover:scale-[1.02] hover:brightness-110 rounded-xl xl:[border-radius:10px_60px_10px_10px]"
+            style="flex: 175 1 0%; background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(8,145,178,0.12) 50%, rgba(5,150,105,0.10) 100%); border: 2px solid rgba(124,58,237,0.25);"
           >
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,250,255,0.85)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6A1.125 1.125 0 0 1 2.25 10.875v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" /></svg>
             <p
@@ -236,7 +235,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
           </a>
 
           <!-- Recent Projects tile (h=258) -->
-          <div class="tile tile-hover p-4 min-h-[220px] xl:min-h-0" style="flex: 380 1 0%; --tile-gradient-dir: to right;">
+          <div class="tile tile-hover p-4 min-h-[220px] xl:min-h-0 order-3 xl:order-none" style="flex: 380 1 0%; --tile-gradient-dir: to right;">
             <p class="font-bold text-lg mb-2 text-tss-white">Recent Projects</p>
             <div class="flex flex-col gap-2.5 flex-1">
 
@@ -286,7 +285,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
           </div>
 
           <!-- Other Work tile -->
-          <div class="tile tile-hover p-3 min-h-[140px] xl:min-h-0" style="flex: 150 1 0%; --tile-gradient-dir: to bottom right;">
+          <div class="tile tile-hover p-3 min-h-[140px] xl:min-h-0 order-5 xl:order-none" style="flex: 150 1 0%; --tile-gradient-dir: to bottom right;">
             <p class="font-bold text-sm mb-[3px] text-tss-white">Other Work</p>
             <div class="flex flex-col gap-1.5 flex-1">
               <div class="work-row">
@@ -310,14 +309,44 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
           <!-- Download Resume button -->
           <a
             href={`${base}resume.pdf`}
-            class="cta-btn spotlight bg-tss-blue"
-            style="border-radius: 10px 10px 60px 10px;"
+            class="cta-btn spotlight bg-tss-blue hidden xl:flex xl:[border-radius:10px_10px_60px_10px]"
           >
             Download Resume
           </a>
         </div>
       </div>
     </div>
+
+    <!-- Mobile floating CTA FAB -->
+    <div id="mobile-fab" class="fixed bottom-5 right-5 z-50 xl:hidden flex flex-col items-end gap-2" style="padding-bottom: env(safe-area-inset-bottom, 0px);">
+      <div id="fab-panel" class="flex flex-col gap-2 transition-all duration-200 origin-bottom-right opacity-0 scale-90 pointer-events-none">
+        <a
+          href={`${base}resume.pdf`}
+          class="flex items-center gap-2 h-10 px-5 rounded-xl text-sm font-semibold text-tss-white no-underline backdrop-blur-xl border border-tss-white/10 active:scale-95 transition-transform"
+          style="background: rgba(62, 146, 204, 0.2);"
+        >
+          <svg class="shrink-0 size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+          Resume
+        </a>
+        <a
+          href="mailto:hello@twinssprucestudio.com"
+          class="flex items-center gap-2 h-10 px-5 rounded-xl text-sm font-semibold text-tss-white no-underline backdrop-blur-xl border border-tss-white/10 active:scale-95 transition-transform"
+          style="background: rgba(216, 49, 91, 0.2);"
+        >
+          <svg class="shrink-0 size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+          Contact
+        </a>
+      </div>
+      <button
+        id="fab-toggle"
+        class="relative size-12 rounded-full bg-black/80 backdrop-blur-xl border border-tss-white/15 flex items-center justify-center text-tss-white/70 shadow-lg shadow-black/50 transition-all duration-200 active:scale-90"
+        aria-label="Quick actions"
+      >
+        <svg id="fab-icon-mail" class="size-5 transition-opacity duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+        <svg id="fab-icon-close" class="size-5 absolute transition-opacity duration-200 opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+
     <script>
       import * as THREE from 'three';
       import { createNoise3D } from 'simplex-noise';
@@ -812,6 +841,34 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
       }
 
       requestAnimationFrame(tick);
+    </script>
+
+    <script>
+      const fab = document.getElementById('mobile-fab');
+      const fabToggle = document.getElementById('fab-toggle');
+      const fabPanel = document.getElementById('fab-panel');
+      const iconMail = document.getElementById('fab-icon-mail');
+      const iconClose = document.getElementById('fab-icon-close');
+
+      function setFab(open: boolean) {
+        fabPanel?.classList.toggle('opacity-0', !open);
+        fabPanel?.classList.toggle('scale-90', !open);
+        fabPanel?.classList.toggle('pointer-events-none', !open);
+        fabPanel?.classList.toggle('opacity-100', open);
+        fabPanel?.classList.toggle('scale-100', open);
+        fabPanel?.classList.toggle('pointer-events-auto', open);
+        iconMail?.classList.toggle('opacity-0', open);
+        iconClose?.classList.toggle('opacity-0', !open);
+      }
+
+      fabToggle?.addEventListener('click', () => {
+        const isOpen = fabPanel?.classList.contains('opacity-100');
+        setFab(!isOpen);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (fab && !fab.contains(e.target as Node)) setFab(false);
+      });
     </script>
   </body>
 </html>
