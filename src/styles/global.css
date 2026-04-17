@@ -68,6 +68,20 @@
     &:active { transform: scale(0.95); }
   }
 
+  /* Animated gradient background for CTA buttons — shimmers like a tile but more vibrant */
+  .cta-gradient-pink {
+    background: linear-gradient(135deg, rgba(216,49,91,0.7) 0%, rgba(216,49,91,0.4) 50%, rgba(216,49,91,0.7) 100%);
+    background-size: 200% 200%;
+    border: 2px solid rgba(216,49,91,0.75);
+    animation: cta-shimmer 6s ease-in-out infinite;
+  }
+  .cta-gradient-blue {
+    background: linear-gradient(135deg, rgba(62,146,204,0.7) 0%, rgba(62,146,204,0.4) 50%, rgba(62,146,204,0.7) 100%);
+    background-size: 200% 200%;
+    border: 2px solid rgba(62,146,204,0.75);
+    animation: cta-shimmer 6s ease-in-out infinite;
+  }
+
   /* Other Work row */
   .work-row {
     @apply rounded-lg flex items-center px-3 h-11 xl:px-2.5 xl:h-[34px];
@@ -94,4 +108,9 @@
     @apply text-[11px] leading-snug;
     color: rgba(255, 250, 255, 0.55);
   }
+}
+
+@keyframes cta-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }

@@ -63,7 +63,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
       </div>
 
       <!-- Mobile header (hidden on desktop) -->
-      <div class="relative z-10 flex items-start justify-between gap-4 px-5 pt-5 pb-2 xl:hidden">
+      <div class="relative z-10 flex items-center justify-between gap-4 pl-6 pr-3 pt-3 pb-2 xl:hidden">
         <div>
           <p class="font-black text-sm text-tss-white tracking-widest">TWIN SPRUCE STUDIO</p>
           <p class="text-xs mt-0.5 text-tss-white/60">Software Dev Portfolio</p>
@@ -111,8 +111,10 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
             </p>
           </div>
 
-          <!-- MY STACK tile -->
-          <div class="tile tile-hover p-5 xl:flex-1 min-h-[320px] xl:min-h-0 order-6 xl:order-none md:col-span-2" style="--tile-gradient-dir: to bottom left;">
+          <!-- My Stack row wrapper: 50/50 flex at tablet, contents elsewhere -->
+          <div class="contents md:flex md:items-stretch md:gap-4 md:col-span-2 md:order-6 xl:contents xl:order-none">
+            <!-- MY STACK tile -->
+            <div class="tile tile-hover p-5 md:flex-1 xl:flex-1 min-h-[320px] xl:min-h-0 order-6 md:order-none xl:order-none" style="--tile-gradient-dir: to bottom left;">
             <p class="font-bold text-2xl mb-4 text-tss-white">MY STACK</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
@@ -144,13 +146,49 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
                 <span class="text-sm text-tss-white/70">Docker, Jenkins, Vercel, Git</span>
               </div>
             </div>
-          </div>
+            </div>
 
-          <!-- FOLLOW ME tile (h=109) -->
-          <div
-            class="tile tile-hover p-5 justify-between gap-2 xl:h-[109px] order-7 xl:order-none md:col-span-2"
-            style="--tile-gradient-dir: to bottom;"
-          >
+            <!-- Tablet right column: Currently Building + buttons + Follow Me -->
+            <div class="contents md:flex md:flex-1 md:flex-col md:gap-4 md:justify-between xl:contents">
+              <!-- Currently Building tile (tablet only) -->
+              <div class="tile tile-hover p-5 hidden md:flex md:flex-col md:gap-3 xl:hidden" style="--tile-gradient-dir: to bottom right;">
+                <div class="flex items-center gap-2">
+                  <span class="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <p class="text-xs text-tss-white/55 uppercase tracking-widest font-semibold">Currently Building</p>
+                </div>
+                <p class="font-bold text-xl text-tss-white leading-tight">Mox Market V2</p>
+                <p class="text-xs text-tss-white/55 leading-snug">MTG purchase decision engine — verdict scoring, trend analysis, market intelligence.</p>
+                <div class="flex flex-wrap gap-1.5 mt-auto">
+                  <span class="stack-row rounded-lg px-2.5 py-1 text-[11px] text-tss-white/75" style="--stack-color-from: rgba(124,58,237,0.3); --stack-color-to: rgba(8,145,178,0.4);">TypeScript</span>
+                  <span class="stack-row rounded-lg px-2.5 py-1 text-[11px] text-tss-white/75" style="--stack-color-from: rgba(8,145,178,0.3); --stack-color-to: rgba(5,150,105,0.4);">Next.js 16</span>
+                  <span class="stack-row rounded-lg px-2.5 py-1 text-[11px] text-tss-white/75" style="--stack-color-from: rgba(5,150,105,0.3); --stack-color-to: rgba(234,88,12,0.4);">Supabase</span>
+                  <span class="stack-row rounded-lg px-2.5 py-1 text-[11px] text-tss-white/75" style="--stack-color-from: rgba(234,88,12,0.3); --stack-color-to: rgba(219,49,91,0.4);">Tailwind 4</span>
+                </div>
+              </div>
+
+              <!-- Bottom group: buttons + Follow Me -->
+              <div class="contents md:flex md:flex-col md:gap-4 xl:contents">
+                <!-- Tablet buttons row (below Follow Me, visible md-to-xl only) -->
+                <div class="hidden md:flex md:gap-3 md:order-last xl:hidden">
+                  <a
+                    href="mailto:hello@twinssprucestudio.com"
+                    class="cta-btn cta-gradient-pink flex-1 rounded-xl"
+                  >
+                    Contact Me
+                  </a>
+                  <a
+                    href={`${base}resume.pdf`}
+                    class="cta-btn cta-gradient-blue flex-1 rounded-xl md:rounded-br-[40px]"
+                  >
+                    Download Resume
+                  </a>
+                </div>
+
+                <!-- FOLLOW ME tile (h=109) -->
+                <div
+                  class="tile tile-hover p-5 justify-between gap-2 xl:h-[109px] order-7 xl:order-none"
+                  style="--tile-gradient-dir: to bottom;"
+                >
             <p class="font-bold text-xl text-tss-white">FOLLOW ME</p>
             <div class="flex justify-around items-center">
               <!-- GitHub -->
@@ -196,12 +234,15 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
                 </svg>
               </a>
             </div>
+              </div>
+              </div>
+            </div>
           </div>
 
           <!-- Contact Me button -->
           <a
             href="mailto:hello@twinssprucestudio.com"
-            class="cta-btn spotlight bg-tss-pink hidden xl:flex xl:[border-radius:10px_10px_10px_60px]"
+            class="cta-btn cta-gradient-pink hidden xl:flex xl:[border-radius:10px_10px_10px_60px]"
           >
             Contact Me
           </a>
@@ -307,7 +348,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
           <!-- Download Resume button -->
           <a
             href={`${base}resume.pdf`}
-            class="cta-btn spotlight bg-tss-blue hidden xl:flex xl:[border-radius:10px_10px_60px_10px]"
+            class="cta-btn cta-gradient-blue hidden xl:flex xl:[border-radius:10px_10px_60px_10px]"
           >
             Download Resume
           </a>
@@ -316,20 +357,18 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
     </div>
 
     <!-- Mobile floating CTA FAB -->
-    <div id="mobile-fab" class="fixed bottom-5 right-5 z-50 xl:hidden flex flex-col items-end gap-2" style="padding-bottom: env(safe-area-inset-bottom, 0px);">
+    <div id="mobile-fab" class="fixed bottom-5 right-5 z-50 md:hidden flex flex-col items-end gap-2" style="padding-bottom: env(safe-area-inset-bottom, 0px);">
       <div id="fab-panel" class="flex flex-col gap-2 transition-all duration-200 origin-bottom-right opacity-0 scale-90 pointer-events-none">
         <a
           href={`${base}resume.pdf`}
-          class="flex items-center gap-2 h-10 px-5 rounded-xl text-sm font-semibold text-tss-white no-underline backdrop-blur-xl border border-tss-white/10 active:scale-95 transition-transform"
-          style="background: rgba(62, 146, 204, 0.2);"
+          class="cta-gradient-blue flex items-center gap-2 h-10 px-5 rounded-xl text-sm font-semibold text-tss-white no-underline backdrop-blur-xl active:scale-95 transition-transform"
         >
           <svg class="shrink-0 size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
           Resume
         </a>
         <a
           href="mailto:hello@twinssprucestudio.com"
-          class="flex items-center gap-2 h-10 px-5 rounded-xl text-sm font-semibold text-tss-white no-underline backdrop-blur-xl border border-tss-white/10 active:scale-95 transition-transform"
-          style="background: rgba(216, 49, 91, 0.2);"
+          class="cta-gradient-pink flex items-center gap-2 h-10 px-5 rounded-xl text-sm font-semibold text-tss-white no-underline backdrop-blur-xl active:scale-95 transition-transform"
         >
           <svg class="shrink-0 size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
           Contact
