@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <!doctype html>
@@ -20,43 +20,29 @@ const base = import.meta.env.BASE_URL;
   </head>
 
   <body
-    class="px-4 sm:px-6 xl:px-8 py-5 xl:py-[70px]"
-    style={`background-image: url('${base}bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;`}
+    class="px-4 sm:px-6 xl:px-8 py-5 xl:py-[70px] bg-tss-bg min-h-screen m-0 flex flex-col items-center justify-center"
   >
+    <!-- Animated wave background -->
+    <canvas
+      id="bg-canvas"
+      style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"
+    ></canvas>
+
     <!-- Dark card -->
     <div
-      class="relative overflow-hidden mx-auto rounded-[20px] sm:rounded-[40px] xl:rounded-[70px] xl:min-h-[883px]"
-      style="width: 100%; max-width: 1294px;"
+      class="relative z-[1] overflow-hidden mx-auto rounded-[20px] sm:rounded-[40px] xl:rounded-[70px] xl:min-h-[883px]"
+      style="width: 100%; max-width: 1294px; border: 1px solid rgba(113, 124, 137, 0.25); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0px 4px 4px rgba(0,0,0,0.25);"
     >
       <!-- Background gradient fill -->
       <div
         class="absolute inset-0"
-        style="background: linear-gradient(135deg, #1e1b18 0%, rgba(0,0,0,0.88) 100%);"
+        style="background: linear-gradient(125deg, rgba(30,27,24,0.82) 2%, rgba(0,0,0,0.78) 100%);"
       ></div>
-
-      <!-- Lava lamp blobs (z=1) -->
-      <div class="absolute inset-0 pointer-events-none overflow-hidden" style="z-index: 1;">
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(50px)] [animation-duration:11s]"
-          style="width:280px; height:280px; left:8%; top:20%; background:radial-gradient(circle, rgba(124,58,237,0.7), transparent 70%);"
-        ></div>
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(55px)] [animation-duration:14s] [animation-delay:-4s]"
-          style="width:240px; height:240px; left:38%; top:45%; background:radial-gradient(circle, rgba(8,145,178,0.6), transparent 70%);"
-        ></div>
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(50px)] [animation-duration:12s] [animation-delay:-7s]"
-          style="width:260px; height:260px; left:18%; top:60%; background:radial-gradient(circle, rgba(219,49,91,0.55), transparent 70%);"
-        ></div>
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(55px)] [animation-duration:15s] [animation-delay:-10s]"
-          style="width:200px; height:200px; left:55%; top:15%; background:radial-gradient(circle, rgba(5,150,105,0.55), transparent 70%);"
-        ></div>
-        <div
-          class="animate-blob absolute rounded-full [filter:blur(50px)] [animation-duration:10s] [animation-delay:-5s]"
-          style="width:220px; height:220px; left:5%; top:75%; background:radial-gradient(circle, rgba(234,88,12,0.5), transparent 70%);"
-        ></div>
-      </div>
+      <!-- Inner glow -->
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(255,255,255,0.07) 100%);"
+      ></div>
 
       <!-- TSS Logo (z=2, sits behind tiles) -->
       <img
@@ -65,121 +51,155 @@ const base = import.meta.env.BASE_URL;
         height="143"
         alt="Twin Spruce Studio logo"
         class="absolute hidden xl:block"
-        style="left: 58px; top: 82px; z-index: 2;"
+        style="left: 58px; top: 70px; z-index: 2;"
       />
 
       <!-- TWIN SPRUCE STUDIO heading (z=2, partially behind middle/right tiles) -->
       <div
         class="absolute font-black hidden xl:block"
-        style="left: 152px; top: 73px; font-size: 68px; line-height: 1; letter-spacing: 0.08em; z-index: 2; white-space: nowrap; color: #fffaff;"
+        style="left: 152px; top: 73px; font-size: 68px; line-height: 1; letter-spacing: 0.08em; z-index: 2; color: #fffaff; max-width: 580px;"
       >
-        TWIN SPRUCE STUDIO
+        TWIN&nbsp;SPRUCE STUDIO
       </div>
 
       <!-- Mobile header (hidden on desktop) -->
-      <div class="relative z-10 flex flex-col px-5 pt-5 pb-2 xl:hidden">
-        <p class="font-black text-sm" style="color: #fffaff; letter-spacing: 0.08em;">TWIN SPRUCE STUDIO</p>
-        <p class="text-xs mt-0.5" style="color: rgba(255,250,255,0.6);">Software Dev Portfolio</p>
+      <div class="relative z-10 flex items-center justify-between gap-4 pl-6 pr-3 pt-3 pb-2 xl:hidden">
+        <div>
+          <p class="font-black text-sm text-tss-white tracking-widest">TWIN SPRUCE STUDIO</p>
+          <p class="text-xs mt-0.5 text-tss-white/60">Software Dev Portfolio</p>
+        </div>
+        <div id="three-canvas-mobile" class="size-16 shrink-0 rounded-lg overflow-hidden"></div>
       </div>
 
       <!-- Content (z=10) — three columns -->
       <div
-        class="relative grid z-10 gap-4 xl:gap-5 p-4 sm:p-5 xl:pt-[43px] xl:pr-[42px] xl:pb-[34px] xl:pl-[34px] grid-cols-1 xl:[grid-template-columns:1fr_311px_215px]"
+        class="relative grid z-10 gap-4 xl:gap-5 p-4 sm:p-5 xl:pt-[43px] xl:pr-[42px] xl:pb-[34px] xl:pl-[34px] grid-cols-1 md:[grid-template-columns:1fr_240px] xl:[grid-template-columns:1fr_311px_215px]"
       >
         <!-- ─── LEFT COLUMN ─── -->
-        <div class="flex flex-col order-last xl:order-none xl:[min-height:806px]">
+        <div class="contents xl:flex xl:flex-col xl:order-none xl:[min-height:806px]">
           <!-- Three.js morphing geometry -->
           <div id="three-canvas" class="hidden xl:block xl:flex-1 w-full min-h-0 rounded-[20px] overflow-hidden xl:mt-[95px]"></div>
           <!-- Profile card at bottom -->
-          <div class="flex items-center gap-4 mt-0 xl:mt-6">
-            <img
-              src={`${base}profile.png`}
-              alt="Josh Stubbington"
-              class="shrink-0 rounded-full object-cover"
-              style="width: 80px; height: 80px;"
-            />
+          <div class="order-1 xl:order-none md:col-span-2 flex items-center gap-4 mt-0 xl:mt-6">
+            <div class="shrink-0 rounded-full flex items-center justify-center size-[92px] border-2 border-tss-white/20">
+              <img
+                src={`${base}profile.png`}
+                alt="Josh Stubbington"
+                class="rounded-full object-cover size-[67px]"
+              />
+            </div>
             <div>
-              <p class="font-bold" style="font-size: 36px; line-height: 1; color: #fffaff;">
+              <p class="font-bold text-2xl sm:text-3xl xl:text-4xl leading-none text-tss-white">
                 JOSH STUBBINGTON
               </p>
-              <p class="text-sm mt-1" style="color: rgba(255,250,255,0.6);">
-                Full Stack Developer &middot; Ottawa, ON
+              <p class="text-sm mt-1 text-tss-white/60">
+                Full Stack Developer<span class="hidden xl:inline"> &middot; </span><br class="xl:hidden" />Ottawa, ON
               </p>
             </div>
           </div>
         </div>
 
         <!-- ─── MIDDLE COLUMN ─── -->
-        <div class="flex flex-col gap-4 order-first xl:order-none">
+        <div class="contents xl:flex xl:flex-col xl:gap-4 xl:order-none">
           <!-- Welcome tile (h=179) -->
-          <div class="tile rounded-[15px] p-5 flex flex-col transition-transform duration-200 hover:scale-[1.02] xl:h-[179px]" style="--tile-gradient-dir: to top;">
-            <p class="font-bold text-2xl mb-3" style="color: #fffaff;">Welcome!</p>
-            <p class="text-sm leading-relaxed" style="color: rgba(255,250,255,0.65);">
-              I'm a full-stack developer and designer building thoughtful digital
-              experiences — from concept through deployment.
+          <div class="tile tile-hover p-6 xl:h-[220px] order-2 xl:order-none md:col-span-2" style="--tile-gradient-dir: to top;">
+            <p class="font-bold text-2xl mb-4 text-tss-white">Welcome!</p>
+            <p class="text-sm leading-relaxed text-tss-white/65">
+              Full-stack developer with 5 years of experience shipping web applications
+              across Rails, Go, React and Next.js — from distributed simulation platforms
+              to real-time geospatial systems.
             </p>
           </div>
 
-          <!-- MY STACK tile -->
-          <div class="tile rounded-[15px] p-5 flex flex-col flex-1 min-h-[320px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="--tile-gradient-dir: to bottom left;">
-            <p class="font-bold text-2xl mb-4" style="color: #fffaff;">MY STACK</p>
+          <!-- My Stack row wrapper: 50/50 flex at tablet, contents elsewhere -->
+          <div class="contents md:flex md:items-stretch md:gap-4 md:col-span-2 md:order-6 xl:contents xl:order-none">
+            <!-- MY STACK tile -->
+            <div class="tile tile-hover p-5 md:flex-1 xl:flex-1 min-h-[320px] xl:min-h-0 order-6 md:order-none xl:order-none" style="--tile-gradient-dir: to bottom left;">
+            <p class="font-bold text-2xl mb-4 text-tss-white">MY STACK</p>
             <div class="flex flex-col gap-2 flex-1">
               <div
-                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="flex-1 rounded-xl flex items-center gap-2.5 px-3 stack-row"
+                style="--stack-color-from: rgba(124,58,237,0.3); --stack-color-to: rgba(8,145,178,0.4);"
               >
-                <span class="text-sm" style="color: rgba(255,250,255,0.7);"
-                  >Backend: Ruby on Rails, Go, C++</span
-                >
+                <svg class="shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+                <span class="text-sm text-tss-white/70">TypeScript, Ruby, Go, C++</span>
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="flex-1 rounded-xl flex items-center gap-2.5 px-3 stack-row"
+                style="--stack-color-from: rgba(8,145,178,0.3); --stack-color-to: rgba(5,150,105,0.4);"
               >
-                <span class="text-sm" style="color: rgba(255,250,255,0.7);"
-                  >Frontend: JavaScript, Angular, React</span
-                >
+                <svg class="shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(8,145,178,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
+                <span class="text-sm text-tss-white/70">Next.js, React, Rails, Angular</span>
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="flex-1 rounded-xl flex items-center gap-2.5 px-3 stack-row"
+                style="--stack-color-from: rgba(5,150,105,0.3); --stack-color-to: rgba(234,88,12,0.4);"
               >
-                <span class="text-sm" style="color: rgba(255,250,255,0.7);"
-                  >Database: PostgreSQL, Redis, MongoDB</span
-                >
+                <svg class="shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(5,150,105,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>
+                <span class="text-sm text-tss-white/70">PostgreSQL, Supabase, Redis</span>
               </div>
               <div
-                class="h-11 rounded-xl flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
+                class="flex-1 rounded-xl flex items-center gap-2.5 px-3 stack-row"
+                style="--stack-color-from: rgba(234,88,12,0.3); --stack-color-to: rgba(219,49,91,0.4);"
               >
-                <span class="text-sm" style="color: rgba(255,250,255,0.7);"
-                  >Tools: Docker, Jenkins, .NET (C#)</span
-                >
+                <svg class="shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(234,88,12,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" /></svg>
+                <span class="text-sm text-tss-white/70">Docker, Jenkins, Vercel, Git</span>
               </div>
             </div>
-            <button
-              class="view-more-btn mt-3 w-full flex items-center justify-center gap-1.5 rounded-[5px] transition-all duration-150 hover:scale-[1.02] hover:shadow-[0_0_14px_rgba(62,146,204,0.5)]"
-              style="height: 21px; font-size: 12px; font-weight: 400; color: #3e92cc; background: rgba(64,86,244,0.2); border: 1px solid #3e92cc;"
-            >
-              + View More
-            </button>
-          </div>
+            </div>
 
-          <!-- FOLLOW ME tile (h=109) -->
-          <div
-            class="tile rounded-[15px] p-5 flex flex-col justify-between transition-transform duration-200 hover:scale-[1.02] xl:h-[109px]"
-            style="--tile-gradient-dir: to bottom;"
-          >
-            <p class="font-bold text-xl" style="color: #fffaff;">FOLLOW ME</p>
-            <div class="flex gap-5 items-center">
+            <!-- Tablet right column: Currently Building + buttons + Follow Me -->
+            <div class="contents md:flex md:flex-1 md:flex-col md:gap-4 md:justify-between xl:contents">
+              <!-- Currently Building tile (tablet only) -->
+              <div class="tile tile-hover p-5 hidden md:flex md:flex-col md:gap-3 xl:hidden" style="--tile-gradient-dir: to bottom right;">
+                <div class="flex items-center gap-2">
+                  <span class="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <p class="text-xs text-tss-white/55 uppercase tracking-widest font-semibold">Currently Building</p>
+                </div>
+                <p class="font-bold text-xl text-tss-white leading-tight">Mox Market V2</p>
+                <p class="text-xs text-tss-white/55 leading-snug">MTG purchase decision engine — verdict scoring, trend analysis, market intelligence.</p>
+                <div class="flex flex-wrap gap-1.5 mt-auto">
+                  <span class="stack-row rounded-lg px-2.5 py-1 text-[11px] text-tss-white/75" style="--stack-color-from: rgba(124,58,237,0.3); --stack-color-to: rgba(8,145,178,0.4);">TypeScript</span>
+                  <span class="stack-row rounded-lg px-2.5 py-1 text-[11px] text-tss-white/75" style="--stack-color-from: rgba(8,145,178,0.3); --stack-color-to: rgba(5,150,105,0.4);">Next.js 16</span>
+                  <span class="stack-row rounded-lg px-2.5 py-1 text-[11px] text-tss-white/75" style="--stack-color-from: rgba(5,150,105,0.3); --stack-color-to: rgba(234,88,12,0.4);">Supabase</span>
+                  <span class="stack-row rounded-lg px-2.5 py-1 text-[11px] text-tss-white/75" style="--stack-color-from: rgba(234,88,12,0.3); --stack-color-to: rgba(219,49,91,0.4);">Tailwind 4</span>
+                </div>
+              </div>
+
+              <!-- Bottom group: buttons + Follow Me -->
+              <div class="contents md:flex md:flex-col md:gap-4 xl:contents">
+                <!-- Tablet buttons row (below Follow Me, visible md-to-xl only) -->
+                <div class="hidden md:flex md:gap-3 md:order-last xl:hidden">
+                  <a
+                    href="mailto:hello@twinssprucestudio.com"
+                    class="cta-btn cta-gradient-pink flex-1 rounded-xl"
+                  >
+                    Contact Me
+                  </a>
+                  <a
+                    href={`${base}resume.pdf`}
+                    class="cta-btn cta-gradient-blue flex-1 rounded-xl md:rounded-br-[40px]"
+                  >
+                    Download Resume
+                  </a>
+                </div>
+
+                <!-- FOLLOW ME tile (h=109) -->
+                <div
+                  class="tile tile-hover p-5 justify-between gap-2 xl:h-[109px] order-7 xl:order-none"
+                  style="--tile-gradient-dir: to bottom;"
+                >
+            <p class="font-bold text-xl text-tss-white">FOLLOW ME</p>
+            <div class="flex justify-around items-center">
               <!-- GitHub -->
               <a
                 href="https://github.com/ayfor"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transition-transform duration-150 hover:scale-110"
-                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
-                onmouseover="this.style.color='#fffaff'"
-                onmouseout="this.style.color='rgba(255,250,255,0.8)'"
+                class="social-btn"
                 aria-label="GitHub"
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path
                     d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
                   ></path>
@@ -190,13 +210,10 @@ const base = import.meta.env.BASE_URL;
                 href="https://x.com/ayfor"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transition-transform duration-150 hover:scale-110"
-                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
-                onmouseover="this.style.color='#fffaff'"
-                onmouseout="this.style.color='rgba(255,250,255,0.8)'"
+                class="social-btn"
                 aria-label="X (Twitter)"
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path
                     d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
                   ></path>
@@ -207,111 +224,17 @@ const base = import.meta.env.BASE_URL;
                 href="https://linkedin.com/in/joshstubbington"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="transition-transform duration-150 hover:scale-110"
-                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
-                onmouseover="this.style.color='#fffaff'"
-                onmouseout="this.style.color='rgba(255,250,255,0.8)'"
+                class="social-btn"
                 aria-label="LinkedIn"
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path
                     d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
                   ></path>
                 </svg>
               </a>
-              <!-- Gumroad -->
-              <a
-                href="https://app.gumroad.com/ayfor"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="transition-transform duration-150 hover:scale-110"
-                style="color: rgba(255,250,255,0.8); transition: color 0.2s;"
-                onmouseover="this.style.color='#fffaff'"
-                onmouseout="this.style.color='rgba(255,250,255,0.8)'"
-                aria-label="Gumroad"
-              >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm5.82 14.43a6.48 6.48 0 0 1-6.487 5.783 6.48 6.48 0 0 1-6.48-6.481A6.48 6.48 0 0 1 11.333 7.25h4.38v2.56h-4.38c-2.168 0-3.922 1.754-3.922 3.923s1.754 3.921 3.922 3.921c1.782 0 3.28-1.187 3.769-2.814H12V12.28h5.82v2.15z"
-                  ></path>
-                </svg>
-              </a>
             </div>
-          </div>
-
-          <!-- Download Resume button (h=74) -->
-          <a
-            href={`${base}resume.pdf`}
-            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform duration-200 hover:scale-[1.03]"
-            style="height: 74px; background: #3e92cc; color: #fffaff; border-radius: 10px 10px 10px 60px; text-decoration: none;"
-          >
-            Download Resume
-          </a>
-        </div>
-
-        <!-- ─── RIGHT COLUMN ─── -->
-        <div class="flex flex-col gap-3 order-2 xl:order-none">
-          <!-- ALL PROJECTS tile (h=215) -->
-          <a
-            href="#"
-            class="tile rounded-[10px] flex flex-col items-center justify-center min-h-[100px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]"
-            style="flex: 215 1 0%; text-decoration: none; --tile-gradient-dir: to top right;"
-          >
-            <span style="font-size: 80px; line-height: 1; color: #fffaff; font-weight: 300;">↗</span>
-            <p
-              class="font-black text-xs mt-2"
-              style="color: #fffaff; letter-spacing: 0.18em;"
-            >
-              ALL PROJECTS
-            </p>
-          </a>
-
-          <!-- Recent Projects tile (h=258) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col min-h-[220px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="flex: 258 1 0%; --tile-gradient-dir: to right;">
-            <p class="font-bold text-lg mb-3" style="color: #fffaff;">Recent Projects</p>
-            <div class="flex flex-col gap-2 flex-1">
-              <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
-                style="height: 48px;"
-              >
-                <span class="text-xs" style="color: rgba(255,250,255,0.65);">TSS Portfolio v3</span>
               </div>
-              <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
-                style="height: 48px;"
-              >
-                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Project Two</span>
-              </div>
-              <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
-                style="height: 48px;"
-              >
-                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Project Three</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Other Work tile (h=232) -->
-          <div class="tile rounded-[15px] p-4 flex flex-col min-h-[220px] xl:min-h-0 transition-transform duration-200 hover:scale-[1.02]" style="flex: 232 1 0%; --tile-gradient-dir: to bottom right;">
-            <p class="font-bold text-lg mb-3" style="color: #fffaff;">Other Work</p>
-            <div class="flex flex-col gap-2 flex-1">
-              <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
-                style="height: 48px;"
-              >
-                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Freelance Design</span>
-              </div>
-              <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
-                style="height: 48px;"
-              >
-                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Open Source</span>
-              </div>
-              <div
-                class="rounded-lg flex items-center px-3 bg-white/[.08] hover:bg-white/[.14] hover:scale-[1.02] transition-all duration-150 cursor-default"
-                style="height: 48px;"
-              >
-                <span class="text-xs" style="color: rgba(255,250,255,0.65);">Photography</span>
               </div>
             </div>
           </div>
@@ -319,27 +242,182 @@ const base = import.meta.env.BASE_URL;
           <!-- Contact Me button -->
           <a
             href="mailto:hello@twinssprucestudio.com"
-            class="spotlight relative overflow-hidden flex items-center justify-center font-black text-xl shrink-0 mt-auto transition-transform duration-200 hover:scale-[1.03]"
-            style="height: 74px; background: #d8315b; color: #fffaff; border-radius: 10px 10px 60px 10px; text-decoration: none;"
+            class="cta-btn cta-gradient-pink hidden xl:flex xl:[border-radius:10px_10px_10px_60px]"
           >
             Contact Me
           </a>
         </div>
+
+        <!-- ─── RIGHT COLUMN ─── -->
+        <div class="contents xl:flex xl:flex-col xl:gap-3 xl:order-none">
+          <!-- ALL PROJECTS tile (h=215) -->
+          <a
+            href="#"
+            class="group relative order-4 xl:order-none flex flex-col items-center justify-center min-h-[100px] xl:min-h-0 no-underline transition-all ease-in-out duration-300 hover:scale-[1.02] hover:brightness-110 rounded-xl xl:[border-radius:10px_60px_10px_10px] md:aspect-square md:self-center xl:aspect-auto xl:self-auto"
+            style="flex: 175 1 0%; background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(8,145,178,0.12) 50%, rgba(5,150,105,0.10) 100%); border: 2px solid rgba(124,58,237,0.25);"
+          >
+            <!-- Decorative top chevron (tablet view only) -->
+            <div class="hidden md:flex xl:hidden absolute left-1/2 -top-7 -translate-x-1/2 text-tss-white/35 transition-all duration-300 group-hover:-translate-y-1 group-hover:text-tss-white/60">
+              <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 15.75 7.5-7.5 7.5 7.5" /></svg>
+            </div>
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,250,255,0.85)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6A1.125 1.125 0 0 1 2.25 10.875v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" /></svg>
+            <p
+              class="font-black text-xs mt-2 text-tss-white tracking-[0.18em]"
+            >
+              ALL PROJECTS
+            </p>
+
+            <!-- Decorative bottom chevron (tablet view only) -->
+            <div class="hidden md:flex xl:hidden absolute left-1/2 -bottom-7 -translate-x-1/2 text-tss-white/35 transition-all duration-300 group-hover:translate-y-1 group-hover:text-tss-white/60">
+              <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+            </div>
+          </a>
+
+          <!-- Recent Projects tile (h=258) -->
+          <div class="tile tile-hover p-4 min-h-[220px] xl:min-h-0 order-3 xl:order-none" style="flex: 380 1 0%; --tile-gradient-dir: to right;">
+            <p class="font-bold text-lg mb-2 text-tss-white">Recent Projects</p>
+            <div class="flex flex-col gap-2.5 flex-1">
+
+              <!-- Mox Market -->
+              <div class="flex flex-col flex-1 rounded-xl overflow-hidden stack-row" style="--stack-color-from: rgba(158,0,49,0.25); --stack-color-to: rgba(158,0,49,0.45);">
+                <div class="project-header">
+                  <img src={`${base}mox-logo.png`} alt="" class="shrink-0 size-6 rounded-md object-cover" aria-hidden="true" />
+                  <span class="text-xs font-semibold text-tss-white">Mox Market</span>
+                </div>
+                <div class="project-body">
+                  <p>MTG purchase decision engine — price evaluation, verdict scoring, and market intelligence.</p>
+                </div>
+              </div>
+
+              <!-- Leftovers -->
+              <div class="flex flex-col flex-1 rounded-xl overflow-hidden stack-row" style="--stack-color-from: rgba(234,88,12,0.25); --stack-color-to: rgba(234,88,12,0.45);">
+                <div class="project-header">
+                  <svg class="shrink-0 size-5" viewBox="0 0 24 24" fill="none" stroke="rgba(234,88,12,0.8)" stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 0 1 3 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 0 1 6 13.12M12.265 3.11a.375.375 0 1 1-.53.53.375.375 0 0 1 .53-.53Zm0 0L12 3.38" />
+                  </svg>
+                  <span class="text-xs font-semibold text-tss-white">Leftovers</span>
+                </div>
+                <div class="project-body">
+                  <p>Smart recipe and pantry management — reduce food waste with ingredient tracking and meal planning.</p>
+                </div>
+              </div>
+
+              <!-- TSS Portfolio -->
+              <div class="flex flex-col rounded-xl overflow-hidden stack-row" style="--stack-color-from: rgba(124,58,237,0.25); --stack-color-to: rgba(124,58,237,0.45);">
+                <div class="project-header">
+                  <svg class="shrink-0 size-5" viewBox="0 0 66 143" fill="none" aria-hidden="true">
+                    <g clip-path="url(#tss-clip)">
+                      <path d="M37.4 26.774V18.568c.748-.44 1.408-.946 2.002-1.562l19.096 19.096a3.703 3.703 0 0 0 5.206 0 3.703 3.703 0 0 0 0-5.226L35.102 1.298a3.703 3.703 0 0 0-5.226 0L1.298 29.898a3.703 3.703 0 0 0 0 5.226 3.703 3.703 0 0 0 5.226 0L26.598 17.006c.572.616 1.254 1.144 2.002 1.562v8.206L1.298 54.098a3.703 3.703 0 0 0 0 5.226 3.703 3.703 0 0 0 5.226 0L25.652 42.196a7.05 7.05 0 0 0 2.97 2.794V50.6c0 2.42 1.98 4.4 4.4 4.4s4.4-1.98 4.4-4.4v-5.61a7.05 7.05 0 0 0 2.77-2.794l18.128 18.128a3.703 3.703 0 0 0 5.226 0 3.703 3.703 0 0 0 0-5.226L37.422 26.796Z" fill="#FFFAFF"/>
+                      <path d="M64.702 88.902a3.703 3.703 0 0 0 0-5.226 3.703 3.703 0 0 0-5.226 0L40.348 100.804a7.05 7.05 0 0 0-2.97-2.794V94.6c0-2.42-1.98-4.4-4.4-4.4s-4.4 1.98-4.4 4.4v3.41a7.05 7.05 0 0 0-2.97 2.794L7.48 82.676a3.703 3.703 0 0 0-5.226 0 3.703 3.703 0 0 0 0 5.226l27.302 27.302v6.006a7.05 7.05 0 0 0-2.97 2.794L7.458 106.876a3.703 3.703 0 0 0-5.226 0 3.703 3.703 0 0 0 0 5.226l28.6 28.6a3.703 3.703 0 0 0 5.226 0l28.578-28.6a3.703 3.703 0 0 0 0-5.226 3.703 3.703 0 0 0-5.226 0L40.282 125.004a7.05 7.05 0 0 0-2.97-2.794v-6.006l27.302-27.302h.088Z" fill="#FFFAFF"/>
+                      <path d="M33 85.8c2.42 0 4.4-1.98 4.4-4.4V63.8c0-2.42-1.98-4.4-4.4-4.4s-4.4 1.98-4.4 4.4v17.6c0 2.42 1.98 4.4 4.4 4.4Z" fill="#FFFAFF"/>
+                    </g>
+                    <defs><clipPath id="tss-clip"><rect width="66" height="143" fill="white"/></clipPath></defs>
+                  </svg>
+                  <span class="text-xs font-semibold text-tss-white">TSS Portfolio</span>
+                </div>
+                <div class="project-body">
+                  <p>This site — Astro and Three.js morphing geometry.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Other Work tile -->
+          <div class="tile tile-hover p-3 min-h-[140px] xl:min-h-0 order-5 xl:order-none md:col-span-2" style="flex: 150 1 0%; --tile-gradient-dir: to bottom right;">
+            <p class="font-bold text-sm mb-[3px] text-tss-white">Other Work</p>
+            <div class="flex flex-col gap-1.5 flex-1">
+              <div class="work-row">
+                <span class="text-sm xl:text-[11px] text-tss-white/65 flex-1">Defence Software — Leonardo Canada</span>
+                <a href="#" class="link-btn">
+                  <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg>
+                </a>
+              </div>
+              <div class="work-row">
+                <span class="text-sm xl:text-[11px] text-tss-white/65">Geospatial &amp; Simulation Platforms</span>
+              </div>
+              <div class="work-row">
+                <span class="text-sm xl:text-[11px] text-tss-white/65 flex-1">Product Configurator — Enclosures Direct</span>
+                <a href="https://buyedi.com/configurator/Q4" target="_blank" rel="noopener noreferrer" class="link-btn">
+                  <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Download Resume button -->
+          <a
+            href={`${base}resume.pdf`}
+            class="cta-btn cta-gradient-blue hidden xl:flex xl:[border-radius:10px_10px_60px_10px]"
+          >
+            Download Resume
+          </a>
+        </div>
       </div>
     </div>
+
+    <!-- Mobile floating CTA FAB -->
+    <div id="mobile-fab" class="fixed bottom-5 right-5 z-50 md:hidden flex flex-col items-end gap-2" style="padding-bottom: env(safe-area-inset-bottom, 0px);">
+      <div id="fab-panel" class="flex flex-col gap-2 transition-all duration-200 origin-bottom-right opacity-0 scale-90 pointer-events-none">
+        <a
+          href={`${base}resume.pdf`}
+          class="cta-gradient-blue flex items-center gap-2 h-10 px-5 rounded-xl text-sm font-semibold text-tss-white no-underline backdrop-blur-xl active:scale-95 transition-transform"
+        >
+          <svg class="shrink-0 size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+          Resume
+        </a>
+        <a
+          href="mailto:hello@twinssprucestudio.com"
+          class="cta-gradient-pink flex items-center gap-2 h-10 px-5 rounded-xl text-sm font-semibold text-tss-white no-underline backdrop-blur-xl active:scale-95 transition-transform"
+        >
+          <svg class="shrink-0 size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+          Contact
+        </a>
+      </div>
+      <div class="flex items-center gap-2">
+        <div
+          id="fab-label"
+          class="h-9 px-3.5 flex items-center rounded-full text-sm font-medium text-tss-white/90 backdrop-blur-xl border border-tss-white/10 transition-opacity duration-200 cursor-pointer select-none shadow-lg shadow-black/40"
+          style="background: rgba(0, 0, 0, 0.55);"
+        >
+          Work with me
+        </div>
+        <button
+          id="fab-toggle"
+          class="relative size-12 rounded-full backdrop-blur-xl flex items-center justify-center text-tss-white shadow-lg shadow-black/50 transition-all duration-200 active:scale-90"
+          style="background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)) padding-box, linear-gradient(135deg, rgba(216, 49, 91, 1), rgba(62, 146, 204, 1)) border-box; border: 2px solid transparent;"
+          aria-label="Quick actions"
+        >
+          <svg id="fab-icon-mail" class="size-5 transition-opacity duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+          <svg id="fab-icon-close" class="size-5 absolute transition-opacity duration-200 opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+    </div>
+
     <script>
       import * as THREE from 'three';
       import { createNoise3D } from 'simplex-noise';
 
       const noise3D = createNoise3D();
       const container = document.getElementById('three-canvas');
+      const containerMobile = document.getElementById('three-canvas-mobile');
 
-      // ── Renderer ──────────────────────────────────────────────────────────
+      // ── Renderer (primary — xl left column, interactive) ──────────────────
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setClearColor(0x000000, 0);
       renderer.domElement.style.cssText = 'display:block;width:100%;height:100%;';
       container.appendChild(renderer.domElement);
+
+      // ── Renderer (mobile/tablet badge — decorative, non-interactive) ──────
+      let rendererMobile = null;
+      if (containerMobile) {
+        rendererMobile = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        rendererMobile.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        rendererMobile.setClearColor(0x000000, 0);
+        rendererMobile.domElement.style.cssText = 'display:block;width:100%;height:100%;pointer-events:none;';
+        containerMobile.appendChild(rendererMobile.domElement);
+      }
 
       // ── Scene & Camera ────────────────────────────────────────────────────
       const scene = new THREE.Scene();
@@ -424,25 +502,26 @@ const base = import.meta.env.BASE_URL;
 
       // ── Morph timing ──────────────────────────────────────────────────────
       // Cycle (25s):  blob(0-5) → main-in(5-8) → main-alone(8-9)
-      //               → mirror-in(9-12) → both-hold(12-20) → both-out(20-23) → blob(23-25)
-      const T_CYCLE = 25;
+      // Cycle (50s): blob(0-14) → main-in(14-17) → main-alone(17-20)
+      //              → mirror-in(20-23) → both-hold(23-33) → both-out(33-36) → blob(36-50)
+      const T_CYCLE = 50;
       function smoothstep(x) { return x * x * (3 - 2 * x); }
 
       function getMorphT(t) {
         const p = t % T_CYCLE;
-        if (p < 5)  return 0;
-        if (p < 8)  return smoothstep((p - 5) / 3);
-        if (p < 20) return 1;
-        if (p < 23) return 1 - smoothstep((p - 20) / 3);
+        if (p < 14) return 0;
+        if (p < 17) return smoothstep((p - 14) / 3);
+        if (p < 33) return 1;
+        if (p < 36) return 1 - smoothstep((p - 33) / 3);
         return 0;
       }
 
       function getMirrorMorphT(t) {
         const p = t % T_CYCLE;
-        if (p < 9)  return 0;
-        if (p < 12) return smoothstep((p - 9) / 3);
-        if (p < 20) return 1;
-        if (p < 23) return 1 - smoothstep((p - 20) / 3);
+        if (p < 20) return 0;
+        if (p < 23) return smoothstep((p - 20) / 3);
+        if (p < 33) return 1;
+        if (p < 36) return 1 - smoothstep((p - 33) / 3);
         return 0;
       }
 
@@ -561,10 +640,12 @@ const base = import.meta.env.BASE_URL;
       function sizeRenderer() {
         const w = container.clientWidth;
         const h = container.clientHeight;
-        if (!w || !h) return;
-        renderer.setSize(w, h);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
+        if (w && h) renderer.setSize(w, h);
+        if (rendererMobile && containerMobile) {
+          const wm = containerMobile.clientWidth;
+          const hm = containerMobile.clientHeight;
+          if (wm && hm) rendererMobile.setSize(wm, hm);
+        }
       }
 
       // ── Animation loop ────────────────────────────────────────────────────
@@ -660,44 +741,215 @@ const base = import.meta.env.BASE_URL;
           );
         });
 
-        // Auto-rotation — pauses while user drags, x springs back to level
+        // Auto-rotation — constant slow horizontal spin, x springs back to level
         if (autoRotate) {
-          group.rotation.y += 0.0006 * (1 - morphT * 0.85);
+          group.rotation.y += 0.004;
           group.rotation.x += (0 - group.rotation.x) * 0.02;
         }
 
-        renderer.render(scene, camera);
+        // Render to primary (xl) canvas
+        if (container.clientWidth && container.clientHeight) {
+          camera.aspect = container.clientWidth / container.clientHeight;
+          camera.updateProjectionMatrix();
+          renderer.render(scene, camera);
+        }
+
+        // Render to mobile/tablet badge canvas (if present)
+        if (rendererMobile && containerMobile && containerMobile.clientWidth && containerMobile.clientHeight) {
+          camera.aspect = containerMobile.clientWidth / containerMobile.clientHeight;
+          camera.updateProjectionMatrix();
+          rendererMobile.render(scene, camera);
+        }
       }());
 
       requestAnimationFrame(sizeRenderer);
-      new ResizeObserver(sizeRenderer).observe(container);
+      const ro = new ResizeObserver(sizeRenderer);
+      ro.observe(container);
+      if (containerMobile) ro.observe(containerMobile);
+    </script>
+
+
+    <script>
+      /**
+       * Optimized bokeh background
+       *
+       * Key optimizations vs. original:
+       * 1. Render at 1/4 resolution on offscreen canvas, scale up (16× fewer pixels)
+       * 2. Eliminated ctx.filter='blur(48px)' — uses soft radial gradients instead
+       *    (CSS blur forces per-frame CPU convolution — the #1 perf killer)
+       * 3. Reduced blob count from 55 → 28 (larger, softer blobs compensate)
+       * 4. Capped at ~20fps via frame interval (slow animation doesn't need 60fps)
+       * 5. Pauses when tab is hidden (visibilitychange)
+       * 6. Debounced resize handler
+       */
+      import { createNoise3D } from 'simplex-noise';
+
+      const display = document.getElementById('bg-canvas') as HTMLCanvasElement;
+      const displayCtx = display.getContext('2d')!;
+
+      // Offscreen canvas at 1/4 resolution — blur hides the upscale
+      const SCALE = 0.5;
+      const offscreen = document.createElement('canvas');
+      const ctx = offscreen.getContext('2d')!;
+
+      const noise3D = createNoise3D();
+
+      // Target ~20fps — 50ms between frames
+      const FRAME_INTERVAL = 50;
+
+      let resizeTimer: number;
+      function resize() {
+        display.width  = window.innerWidth;
+        display.height = window.innerHeight;
+        offscreen.width  = Math.ceil(window.innerWidth * SCALE);
+        offscreen.height = Math.ceil(window.innerHeight * SCALE);
+      }
+      resize();
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(resize, 150);
+      });
+
+      const PALETTE: [number, number, number][] = [
+        [124,  58, 237],  // purple
+        [  8, 145, 178],  // cyan
+        [219,  49,  91],  // pink
+        [  5, 150, 105],  // green
+        [234,  88,  12],  // orange
+      ];
+
+      // 4 vortex attractors (reduced from 6)
+      const VORTEX = [
+        { nzx:  0.0, nzy: 20.0, sp: 0.010 },
+        { nzx:  7.3, nzy: 27.3, sp: 0.008 },
+        { nzx: 14.6, nzy: 34.6, sp: 0.012 },
+        { nzx: 21.9, nzy: 41.9, sp: 0.007 },
+      ];
+
+      // 28 blobs — fewer but larger/softer for same visual coverage
+      const blobs = Array.from({ length: 28 }, (_, i) => {
+        const s = (seed: number) => (Math.sin(seed) * 0.5 + 0.5);
+        return {
+          ci:       i % 5,
+          vi:       i % VORTEX.length,
+          orbitR:   0.12 + s(i * 127.1) * 0.42,
+          orbitSpd: (0.04 + s(i * 311.7) * 0.10) * (i % 2 ? 1 : -1),
+          phase:    s(i * 74.3) * Math.PI * 2,
+          blobR:    0.18 + s(i * 198.5) * 0.24,  // ratio of min(W,H)
+          op:       0.50 + s(i * 453.9) * 0.30,
+          driftSpd: 0.005 + s(i * 89.2) * 0.008,
+          driftNzx: i * 3.7,
+          driftNzy: i * 3.7 + 100,
+        };
+      });
+
+      const t0 = performance.now();
+      let lastFrame = 0;
+      let paused = false;
+
+      // Pause rendering when tab is not visible
+      document.addEventListener('visibilitychange', () => {
+        paused = document.hidden;
+        if (!paused) {
+          lastFrame = 0;
+          requestAnimationFrame(tick);
+        }
+      });
+
+      function tick(now: number) {
+        if (paused) return;
+        requestAnimationFrame(tick);
+
+        // Throttle to target fps
+        if (now - lastFrame < FRAME_INTERVAL) return;
+        lastFrame = now;
+
+        const t  = (now - t0) / 1000;
+        const W  = offscreen.width;
+        const H  = offscreen.height;
+        const md = Math.min(W, H);
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#1c1a2e';
+        ctx.fillRect(0, 0, W, H);
+
+        // Vortex centres — noise-driven wander
+        const vc = VORTEX.map(v => ({
+          x: W * (0.5 + noise3D(t * v.sp, v.nzx, 0) * 0.48),
+          y: H * (0.5 + noise3D(t * v.sp, v.nzy, 0) * 0.48),
+        }));
+
+        // No ctx.filter blur — soft gradients with multiple stops do the work
+        for (const b of blobs) {
+          const [r, g, bl] = PALETTE[b.ci];
+          const { x: vx, y: vy } = vc[b.vi];
+
+          const angle = t * b.orbitSpd + b.phase;
+          const rx    = b.orbitR * md;
+          const ry    = b.orbitR * md * 0.62;
+
+          const dx = noise3D(t * b.driftSpd, b.driftNzx, 0) * md * 0.18;
+          const dy = noise3D(t * b.driftSpd, b.driftNzy, 0) * md * 0.18;
+
+          const x = vx + Math.cos(angle) * rx + dx;
+          const y = vy + Math.sin(angle) * ry + dy;
+
+          const radius = b.blobR * md;
+
+          // Soft multi-stop gradient replaces expensive CSS blur
+          const grd = ctx.createRadialGradient(x, y, 0, x, y, radius);
+          grd.addColorStop(0,    `rgba(${r},${g},${bl},${b.op})`);
+          grd.addColorStop(0.3,  `rgba(${r},${g},${bl},${b.op * 0.6})`);
+          grd.addColorStop(0.6,  `rgba(${r},${g},${bl},${b.op * 0.25})`);
+          grd.addColorStop(1,    `rgba(${r},${g},${bl},0)`);
+          ctx.fillStyle = grd;
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Upscale offscreen → display with smoothing (acts as free bilinear blur)
+        displayCtx.imageSmoothingEnabled = true;
+        displayCtx.imageSmoothingQuality = 'medium';
+        displayCtx.drawImage(offscreen, 0, 0, display.width, display.height);
+      }
+
+      requestAnimationFrame(tick);
     </script>
 
     <script>
-      document.querySelectorAll('.tile, .spotlight').forEach(el => {
-        const overlay = document.createElement('div');
-        overlay.style.cssText = [
-          'position:absolute',
-          'inset:0',
-          'pointer-events:none',
-          'border-radius:inherit',
-          'opacity:0',
-          'transition:opacity 0.35s ease',
-          'z-index:10',
-        ].join(';');
-        el.appendChild(overlay);
+      const fab = document.getElementById('mobile-fab');
+      const fabToggle = document.getElementById('fab-toggle');
+      const fabPanel = document.getElementById('fab-panel');
+      const fabLabel = document.getElementById('fab-label');
+      const iconMail = document.getElementById('fab-icon-mail');
+      const iconClose = document.getElementById('fab-icon-close');
 
-        el.addEventListener('mousemove', e => {
-          const { left, top } = el.getBoundingClientRect();
-          const x = e.clientX - left;
-          const y = e.clientY - top;
-          overlay.style.background = `radial-gradient(circle 120px at ${x}px ${y}px, rgba(255,255,255,0.025), transparent 70%)`;
-          overlay.style.opacity = '1';
-        });
+      function setFab(open: boolean) {
+        fabPanel?.classList.toggle('opacity-0', !open);
+        fabPanel?.classList.toggle('scale-90', !open);
+        fabPanel?.classList.toggle('pointer-events-none', !open);
+        fabPanel?.classList.toggle('opacity-100', open);
+        fabPanel?.classList.toggle('scale-100', open);
+        fabPanel?.classList.toggle('pointer-events-auto', open);
+        iconMail?.classList.toggle('opacity-0', open);
+        iconClose?.classList.toggle('opacity-0', !open);
+        fabLabel?.classList.toggle('opacity-0', open);
+        fabLabel?.classList.toggle('pointer-events-none', open);
+      }
 
-        el.addEventListener('mouseleave', () => {
-          overlay.style.opacity = '0';
-        });
+      fabToggle?.addEventListener('click', () => {
+        const isOpen = fabPanel?.classList.contains('opacity-100');
+        setFab(!isOpen);
+      });
+
+      fabLabel?.addEventListener('click', () => {
+        const isOpen = fabPanel?.classList.contains('opacity-100');
+        setFab(!isOpen);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (fab && !fab.contains(e.target as Node)) setFab(false);
       });
     </script>
   </body>
