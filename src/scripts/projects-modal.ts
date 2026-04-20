@@ -74,7 +74,7 @@ const PROJECTS: Project[] = [
   { id: 'wishclaw',  name: 'Wishclaw',            sub: 'MTG · LGS price comparison', desc: 'Magic: The Gathering card availability tool — bring-your-own-store scraping for local inventory. Gothic Cathedral design locked; feature pages in progress.', stack: ['next','ts','tail'],            status: 'design', prog: 45, due: 'Jun',     logo: 'wishclaw',  dir: 'to right',        bf: 'rgba(35,206,107,.35)', bt: 'rgba(124,58,237,.3)',  updated: '2w ago',
     links: [{ kind: 'figma', url: 'https://www.figma.com/design/xdWkxF2Xd6ZwTAWmgQEZal/Wishclaw-%E2%80%93-Style-Guide---Design-System?node-id=162-2', label: 'Figma' }] },
   { id: 'grimoire',  name: 'Grimoire',            sub: 'MTG · NLP trend analysis',   desc: 'Natural language trend analysis across MTG communities — card hype detection, meta shifts, and deck-archetype surfacing from social and tournament data.',  stack: ['next','ts','sup','ai'],        status: 'design', prog: 25, due: 'Jul',     logo: 'grimoire',  dir: 'to bottom',       bf: 'rgba(124,58,237,.35)', bt: 'rgba(219,49,91,.4)',   updated: '3w ago',
-    links: [{ kind: 'figma', url: '#', label: 'Figma' }] },
+    links: [] },
   { id: 'orrery',    name: 'Orrery',              sub: 'MTG · Deck-tech visualizer', desc: 'AI-powered MTG deck-tech visualizer — surface card interactions, archetypes, and gameplay patterns from deck data.',                                       stack: ['next','ts','ai'],              status: 'todo',   prog: 5,  due: 'Fall',    logo: 'orrery',    dir: 'to top right',    bf: 'rgba(8,145,178,.35)',  bt: 'rgba(124,58,237,.3)',  updated: '2w ago',
     links: [] },
   { id: 'tss',       name: 'TSS Portfolio',       sub: 'This site',              desc: 'Single-page portfolio — Astro, Tailwind 4, Three.js morphing geometry driven by simplex noise.',                                                             stack: ['astro','tail','three'],            status: 'done',   prog: 100, due: 'Shipped', logo: 'tss',       dir: 'to bottom left',  bf: 'rgba(124,58,237,.45)', bt: 'rgba(8,145,178,.4)',   updated: 'Apr 12',
@@ -226,8 +226,18 @@ const scrim = document.getElementById('projects-scrim');
 const openBtn = document.getElementById('open-projects-modal');
 const closeBtn = document.getElementById('close-projects-modal');
 
-function openModal() { document.body.classList.add('projects-modal-open'); }
-function closeModal() { document.body.classList.remove('projects-modal-open'); }
+function openModal() {
+  document.body.classList.add('projects-modal-open');
+  scrim?.removeAttribute('inert');
+  // Move focus into the modal so keyboard users land somewhere meaningful
+  closeBtn?.focus();
+}
+function closeModal() {
+  document.body.classList.remove('projects-modal-open');
+  scrim?.setAttribute('inert', '');
+  // Return focus to the trigger so tab order is preserved
+  openBtn?.focus();
+}
 
 openBtn?.addEventListener('click', e => { e.preventDefault(); openModal(); });
 closeBtn?.addEventListener('click', closeModal);
