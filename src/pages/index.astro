@@ -17,6 +17,14 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Client modules (bundled by Astro, deferred by default) -->
+    <script>
+      import '../scripts/three-scene';
+      import '../scripts/bokeh';
+      import '../scripts/projects-modal';
+      import '../scripts/fab';
+    </script>
   </head>
 
   <body
@@ -453,27 +461,5 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         </button>
       </div>
     </div>
-
-
-    <!-- Three.js morphing geometry (left column at xl + mobile header badge) -->
-    <script>
-      import '../scripts/three-scene';
-    </script>
-
-    <!-- Optimized bokeh background -->
-    <script>
-      import '../scripts/bokeh';
-    </script>
-
-    <!-- Projects modal logic -->
-    <script>
-      import '../scripts/projects-modal';
-    </script>
-
-    <!-- Mobile floating action button -->
-    <script>
-      import '../scripts/fab';
-    </script>
-
   </body>
 </html>
