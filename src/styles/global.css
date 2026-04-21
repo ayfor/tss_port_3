@@ -122,6 +122,10 @@
 .projects-scrim {
   position: fixed;
   inset: 0;
+  /* Dynamic viewport units cover the visible area as iOS Safari's URL bar
+     shows/hides, so the scrim doesn't leave a gap at the bottom */
+  width: 100dvw;
+  height: 100dvh;
   z-index: 100;
   background: rgba(5, 4, 10, 0.92);
   backdrop-filter: blur(48px) saturate(0.55);
@@ -141,7 +145,7 @@ body.projects-modal-open .projects-scrim { opacity: 1; pointer-events: auto; }
   position: relative;
   width: 100%;
   max-width: 1320px;
-  height: min(880px, 92vh);
+  height: min(880px, 92dvh);
   border-radius: 40px;
   border: 1px solid rgba(113, 124, 137, 0.35);
   overflow: hidden;
