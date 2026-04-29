@@ -140,6 +140,11 @@
 }
 body.projects-modal-open { overflow: hidden; }
 body.projects-modal-open .projects-scrim { opacity: 1; pointer-events: auto; }
+/* Hide the bokeh canvas while the modal is open. iOS Safari can leave seams
+   between the scrim and viewport edges where the canvas's animated blobs would
+   otherwise peek through; removing the canvas from the paint tree closes the
+   gap regardless of how the scrim's viewport units resolve. */
+body.projects-modal-open #bg-canvas { display: none; }
 
 .projects-modal {
   position: relative;
