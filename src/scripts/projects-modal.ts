@@ -21,6 +21,9 @@ const STACK: Record<string, { l: string; c: string }> = {
   js:       { l: 'JavaScript',  c: '#eab308' },
   cs:       { l: 'C#',          c: '#a855f7' },
   swx:      { l: 'Solidworks API', c: '#dc2626' },
+  fastify:  { l: 'Fastify',     c: '#fffaff' },
+  leaflet:  { l: 'Leaflet',     c: '#23ce6b' },
+  ws:       { l: 'WebSockets',  c: '#eab308' },
   faktory:  { l: 'Faktory',     c: '#ef4444' },
   electron: { l: 'Electron',    c: '#47848f' },
 };
@@ -43,6 +46,7 @@ const logos: Record<string, LogoDef> = {
   enc:       { type: 'svg', c: '#ea580c', path: 'M21 7.5l-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9' },
   grimoire:  { type: 'svg', c: '#7c3aed', path: 'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25' },
   wishclaw:  { type: 'svg', c: '#23ce6b', path: 'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.898 20.572 16.5 21.75l-.398-1.178a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.179-.398a2.25 2.25 0 0 0 1.423-1.423l.398-1.178.398 1.178a2.25 2.25 0 0 0 1.423 1.423l1.178.398-1.178.398a2.25 2.25 0 0 0-1.423 1.423Z' },
+  sentinel:  { type: 'svg', c: '#69e0db', path: 'M12 2.25 20.25 7v10L12 21.75 3.75 17V7L12 2.25Z M12 10.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z' },
   orrery:    { type: 'svg', c: '#0891b2', path: 'M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418' },
 };
 
@@ -77,6 +81,8 @@ const PROJECTS: Project[] = [
     links: [] },
   { id: 'orrery',    name: 'Orrery',              sub: 'MTG · Deck-tech visualizer', desc: 'AI-powered MTG deck-tech visualizer — surface card interactions, archetypes, and gameplay patterns from deck data.',                                       stack: ['next','ts','ai'],              status: 'todo',   prog: 5,  due: 'Fall',    logo: 'orrery',    dir: 'to top right',    bf: 'rgba(8,145,178,.35)',  bt: 'rgba(124,58,237,.3)',  updated: '2w ago',
     links: [] },
+  { id: 'sentinel',  name: 'SENTINEL',            sub: 'Airspace · Live ops console', desc: 'Real-time airspace console — 120 live assets on civil corridors, user-drawn restricted zones with time-to-entry, an autonomous shadow drone, and interceptor dispatch over multi-client WebSocket sync. Built through a documented, human-gated AI pipeline.', stack: ['react','ts','fastify','leaflet','ws'], status: 'done',   prog: 100, due: 'Shipped', logo: 'sentinel',  dir: 'to bottom right', bf: 'rgba(105,224,219,.4)', bt: 'rgba(224,54,47,.3)',   updated: 'Jul 23',
+    links: [{ kind: 'repo', url: 'https://github.com/ayfor/sentinel', label: 'Repo' }] },
   { id: 'tss',       name: 'TSS Portfolio',       sub: 'This site',              desc: 'Single-page portfolio — Astro, Tailwind 4, Three.js morphing geometry driven by simplex noise.',                                                             stack: ['astro','tail','three'],            status: 'done',   prog: 100, due: 'Shipped', logo: 'tss',       dir: 'to bottom left',  bf: 'rgba(124,58,237,.45)', bt: 'rgba(8,145,178,.4)',   updated: 'Apr 12',
     links: [
       { kind: 'live', url: 'https://ayfor.github.io/tss_port_3/', label: 'Live' },
